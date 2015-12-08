@@ -24,7 +24,10 @@
     "currentRouteName",
     "describe",
     "it",
-    "browser"
+    "browser",
+    "before",
+    "beforeEach",
+    "after"
   ],
   "node": true,
   "browser": false,

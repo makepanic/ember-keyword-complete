@@ -30,7 +30,7 @@ exports.config = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
+        browserName: 'firefox'
     }],
     //
     // ===================
@@ -49,7 +49,7 @@ exports.config = {
     //
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", the base url gets prepended.
-    baseUrl: 'http://localhost:4200',
+    baseUrl: 'http://localhost:7000',
     //
     // Default timeout for all waitForXXX commands.
     waitforTimeout: 100000,

@@ -37,6 +37,7 @@
     "ember-export-application-global": "^1.0.4",
     "ember-truth-helpers": "1.2.0",
     "ember-try": "~0.0.8",
+    "mocha": "^2.3.4",
     "webdriverio": "^3.3.0"
   },
   "keywords": [
