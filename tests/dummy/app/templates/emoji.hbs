@@ -1,0 +1,18 @@
+<h1 class="emoji">emoji</h1>
+
+{{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
+    <div class="relative">
+      {{textarea id="complete-textarea" rows="8" value=text}}
+      {{#complete.tooltip isVisible=complete.visible ~}}
+          <ul>
+            {{#each complete.suggestions as |suggestion idx|}}
+              {{#complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
+                {{suggestion.val}}
+              {{/complete.item}}
+            {{/each}}
+          </ul>
+      {{~/complete.tooltip}}
+    </div>
+{{/keyword-complete}}
+
+{{outlet}}

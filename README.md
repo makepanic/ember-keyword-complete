@@ -1,5 +1,10 @@
 # Ember-keyword-complete
 
+> An easy way to add keyword autocompletion to existing input/textarea elements
+
+this is a WIP (prototype):
+![https://i.imgur.com/bZ19rGE.gif](https://i.imgur.com/bZ19rGE.gif)
+
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation

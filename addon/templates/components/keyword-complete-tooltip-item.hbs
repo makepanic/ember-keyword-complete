@@ -1,0 +1,5 @@
+{{#if (or hasBlock (not keyItemComponent))}}
+  {{yield}}
+{{else}}
+  {{component keyItemComponent suggestion=suggestion}}
+{{/if}}

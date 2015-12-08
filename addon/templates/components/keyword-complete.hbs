@@ -1,0 +1,9 @@
+{{yield (hash
+  tooltip=(component 'keyword-complete-tooltip' position=tooltipCoords)
+  item=(component 'keyword-complete-tooltip-item' keyItemComponent=keyItemComponent selected-item=(action 'clickedSelection'))
+  suggestions=suggestions
+  selectionIdx=selectionIdx
+  filterQuery=filterQuery
+  visible=tooltipVisible
+  keyItemComponent=keyItemComponent
+)}}
