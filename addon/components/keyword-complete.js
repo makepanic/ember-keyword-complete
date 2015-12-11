@@ -169,7 +169,7 @@ export default Ember.Component.extend({
       let caretPosition = getCaretPosition(input),
         text = $input.val(),
         prevChar = text.charAt(caretPosition - 1),
-        currentChar = String.fromCharCode(ev.keyCode);
+        currentChar = String.fromCharCode(ev.which);
 
       if (sources.hasOwnProperty(currentChar)) {
         // start of keyword autocomplete
@@ -193,11 +193,11 @@ export default Ember.Component.extend({
 
     $input.on('keydown', (ev) => {
       let visible = this.get('tooltipVisible');
-      if (ev.ctrlKey || ev.altKey || ev.metaKey || ev.keyCode === KEYS.SHIFT) {
+      if (ev.ctrlKey || ev.altKey || ev.metaKey || ev.which === KEYS.SHIFT) {
         return;
       }
 
-      if (ev.keyCode === KEYS.ESC) {
+      if (ev.which === KEYS.ESC) {
         this.set('selectionIdx', -1);
         this.closeTooltip();
         return;
@@ -208,7 +208,7 @@ export default Ember.Component.extend({
         return false;
       }
 
-      if (this.get('caretStart') === null && ev.keyCode === KEYS.BACKSPACE) {
+      if (this.get('caretStart') === null && ev.which === KEYS.BACKSPACE) {
         // see if he previous keyword could be an autocomplete keyword
         let position = getCaretPosition(input),
           prevChar = '',
@@ -234,7 +234,7 @@ export default Ember.Component.extend({
       }
 
       let selectionIdx = this.get('selectionIdx');
-      switch (ev.keyCode) {
+      switch (ev.which) {
         case KEYS.ENTER:
         case KEYS.TAB:
           if (selectionIdx > -1) {
