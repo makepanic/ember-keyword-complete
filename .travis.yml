@@ -35,6 +35,3 @@ install:
 script:
   - ember test
   - sh run-webdriver.sh
-
-after_script:
-  - bash ./deploy-gh-pages.sh
