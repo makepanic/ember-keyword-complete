@@ -6,10 +6,10 @@ const {RSVP} = Ember;
 export let emoji = {
   component: 'emoji-item',
   extractDataString(item) {
-    return item.val;
+    return `:${item.val}:`;
   },
   loadSuggestions(query) {
-    return RSVP.resolve(ENV.APP.EMOJIS.filter(item => item.val.indexOf(query) !== -1));
+    return RSVP.resolve(ENV.APP.EMOJIS.filter(item => `:${item.val}:`.indexOf(query) !== -1));
   }
 };
 

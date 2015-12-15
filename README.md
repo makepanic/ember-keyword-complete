@@ -7,6 +7,14 @@ this is a WIP (prototype):
 
 This README outlines the details of collaborating on this Ember addon.
 
+## Usage
+
+Installing this addon is as easy as:
+
+```
+ember install ember-keyword-complete
+```
+
 ## Installation
 
 * `git clone` this repository

@@ -1,18 +1,20 @@
-<h1 class="emoji">emoji</h1>
-
 {{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
     <div class="relative">
-      {{textarea id="complete-textarea" rows="8" value=text}}
       {{#complete.tooltip isVisible=complete.visible ~}}
           <ul>
             {{#each complete.suggestions as |suggestion idx|}}
-              {{#complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
-                {{suggestion.val}}
-              {{/complete.item}}
+              {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
             {{/each}}
           </ul>
       {{~/complete.tooltip}}
     </div>
+    {{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=text}}
 {{/keyword-complete}}
 
-{{outlet}}
+<hr>
+
+<h4>emoji alias <code>:</code></h4>
+
+{{#keyword-list keywords=emojis as |emoji|}}
+    <code>{{emoji.val}}</code>
+{{/keyword-list}}

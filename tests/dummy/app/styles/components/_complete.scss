@@ -1,0 +1,48 @@
+@import "../colors";
+
+$image-size: 20px;
+
+.auto-complete {
+  position: relative;
+}
+
+.complete-tooltip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid $white-3;
+  background: $white-0;
+}
+
+.complete-tooltip-header {
+  padding: 5px 10px;
+  font-size: 13px;
+  background: $white-1;
+  border-bottom: 1px solid $white-3;
+}
+
+.complete-tooltip-body {
+  padding: 10px;
+}
+
+.complete-item {
+  padding: 5px 10px 5px 5px;
+  color: $blue-1;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0;
+}
+
+.complete-item img {
+  vertical-align: middle;
+  display: inline-block;
+  width: $image-size;
+  height: $image-size;
+}
+
+.complete-item-active {
+  background: $blue-1;
+  color: $white-0;
+}

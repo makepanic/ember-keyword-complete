@@ -1,15 +1,3 @@
-<pre>
-suggestions: {{suggestions.length}}
-visible: {{tooltipVisible}}
-filterQuery: "{{filterQuery}}"
-idx: {{selectionIdx}}
-caretPosition: {{caretPosition}}
-start: {{caretStart}}
-end: {{caretEnd}}
-currentSourceKey: "{{currentSourceKey}}"
-keyItemComponent: "{{keyItemComponent}}
-</pre>
-
 {{yield (hash
   tooltip=(component 'keyword-complete-tooltip' position=tooltipCoords)
   item=(component 'keyword-complete-tooltip-item' keyItemComponent=keyItemComponent selected-item=(action 'clickedSelection'))

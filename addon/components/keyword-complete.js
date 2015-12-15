@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/keyword-complete';
 
-const {on, observer, computed, run, assert} = Ember;
+const {observer, computed, run, assert} = Ember;
 
 const REGEX_WHITESPACE = /[\s\t]/,
   REGEX_KEYWORDS = /[0-9a-zA-Z_\.]/,
@@ -61,20 +61,6 @@ export default Ember.Component.extend({
     }
     return query;
   }),
-
-  //tooltipCoords: {},
-  //isAbsolute: observer('tooltipVisible', 'text', 'caretPosition', function () {
-  //  let input = this.get('input'),
-  //    $input = this.get('$input'),
-  //    coords = getCaretCoordinates(input, input.selectionEnd);
-  //
-  //  run.scheduleOnce('afterRender', this, () => {
-  //    this.$('.complete-tooltip').css({
-  //      left: `${coords.left}px`,
-  //      top: `${coords.top}px`
-  //    });
-  //  });
-  //}),
 
   minQueryLength: 2,
   caretPosition: 0,
@@ -151,7 +137,8 @@ export default Ember.Component.extend({
     });
   },
 
-  setupListeners: on('didInsertElement', function () {
+  didInsertElement: function () {
+    this._super(...arguments);
     let target = this.get('target'),
       $input,
       input,
@@ -275,7 +262,7 @@ export default Ember.Component.extend({
           break;
       }
     });
-  }),
+  },
 
   actions: {
     clickedSelection(value){

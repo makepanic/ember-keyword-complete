@@ -1,16 +1,45 @@
-<h1 class="emoji-and-users">emoji and users</h1>
-
 {{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
     <div class="relative">
-      {{textarea id="complete-textarea" rows="8" value=text}}
       {{#complete.tooltip isVisible=complete.visible ~}}
-          <ul>
-            {{#each complete.suggestions as |suggestion idx|}}
-              {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
-            {{/each}}
-          </ul>
+          <div class="complete-tooltip-header">
+              <div class="row">
+                  <div class="six columns">
+                      query: "<strong>{{complete.filterQuery}}</strong>"
+                  </div>
+                  <div class="six columns text-right">
+                      <strong>↑</strong> <strong>↓</strong> to navigate
+                      <strong>↵</strong> to select
+                      <strong>esc</strong> to dismiss
+                  </div>
+              </div>
+          </div>
+          <div class="complete-tooltip-body">
+              <ul>
+                {{#each complete.suggestions as |suggestion idx|}}
+                  {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
+                {{/each}}
+              </ul>
+          </div>
       {{~/complete.tooltip}}
     </div>
+    {{textarea class="demo-textarea emoji-and-users" id="complete-textarea" rows="8" value=text}}
 {{/keyword-complete}}
 
-{{outlet}}
+<hr>
+
+<div class="row">
+    <div class="six columns">
+        <h4>emoji alias <code>:</code></h4>
+
+      {{#keyword-list keywords=emojis as |emoji|}}
+          <code>{{emoji.val}}</code>
+      {{/keyword-list}}
+    </div>
+    <div class="six columns">
+        <h4>user alias <code>@</code></h4>
+
+      {{#keyword-list keywords=users as |user|}}
+          <code>{{user.nick}}</code>
+      {{/keyword-list}}
+    </div>
+</div>

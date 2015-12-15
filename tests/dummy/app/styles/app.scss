@@ -1,0 +1,58 @@
+@import "components/docs";
+@import "components/nav";
+@import "components/header";
+@import "components/keywords";
+@import "components/demo";
+@import "components/complete";
+@import "colors";
+
+html{
+  height: 100%;
+}
+body {
+  margin: 10px;
+}
+
+body,
+pre,
+textarea,
+input {
+  color: $black-0;
+  font-family: "Fira Sans", RobotoRegular, sans-serif;
+}
+
+code{
+  border-radius: 0;
+}
+
+h1,h2,h3,h4,h5,h6{
+  font-family: "DejaVu Sans", sans-serif;
+}
+
+.relative{
+  position: relative;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+textarea{
+  width: 100%;
+}
+
+small{
+  font-size: 12px;
+}
+
+ul{
+  margin: 0;
+  padding: 0;
+}
+
+.text-center{
+  text-align: center;
+}
+.text-right{
+  text-align: right;
+}
