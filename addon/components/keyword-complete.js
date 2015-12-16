@@ -74,11 +74,7 @@ export default Ember.Component.extend({
     this.get('dataSources')[currentSourceKey].loadSuggestions(filterQuery).then(data => {
       if (this.get('_loadSuggestionsId') === loadSuggestionsId) {
         this.set('suggestions', data);
-
-        let selectionIdx = this.get('selectionIdx');
-        if (selectionIdx < 0 || selectionIdx >= data.length) {
-          this.set('selectionIdx', 0);
-        }
+        this.set('selectionIdx', 0);
       } // else ignore because newer load promise already started
     });
   },
