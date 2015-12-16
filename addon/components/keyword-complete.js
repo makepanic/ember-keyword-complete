@@ -249,11 +249,18 @@ export default Ember.Component.extend({
           }
           return false;
         case KEYS.BACKSPACE:
-          let caretPosition = getCaretPosition(input);
+          let caretPosition = getCaretPosition(input) - 1,
+            prevChar = input.value[caretPosition - 1];
           that.set('caretPosition', caretPosition);
           that.set('selectionIdx', -1);
+
+          if (REGEX_WHITESPACE.test(prevChar)) {
+            that.set('caretStart', null);
+            that.set('caretEnd', null);
+          }
+
           if (that.get('caretStart') !== null) {
-            that.set('caretEnd', caretPosition - 1);
+            that.set('caretEnd', caretPosition);
           }
 
           if (caretPosition === 0) {
