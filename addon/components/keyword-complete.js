@@ -182,7 +182,6 @@ export default Ember.Component.extend({
       }
 
       if (ev.which === KEYS.ESC) {
-        that.set('selectionIdx', -1);
         that.closeTooltip();
         return;
       }
@@ -193,8 +192,8 @@ export default Ember.Component.extend({
       }
 
       if (that.get('caretStart') === null && ev.which === KEYS.BACKSPACE) {
-        // see if he previous keyword could be an autocomplete keyword
-        let position = getCaretPosition(input),
+        // see if the previous keyword could be an autocomplete keyword
+        let position = getCaretPosition(input) - 1,
           prevChar = '',
           prevCharOk = true;
 
