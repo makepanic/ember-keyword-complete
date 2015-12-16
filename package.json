@@ -1,7 +1,7 @@
 {
   "name": "ember-keyword-complete",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "easy way to add keyword autocompletion to existing input/textarea elements in ember",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,7 +11,7 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": "https://github.com/makepanic/ember-keyword-complete",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -44,13 +44,17 @@
     "webdriverio": "^3.3.0"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "autocomplete",
+    "inline",
+    "keywords"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5",
     "ember-cli-htmlbars": "^1.0.1"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "demoURL": "https://makepanic.github.io/ember-keyword-complete/"
   }
 }
