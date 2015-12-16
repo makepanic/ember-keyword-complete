@@ -74,6 +74,11 @@ export default Ember.Component.extend({
     this.get('dataSources')[currentSourceKey].loadSuggestions(filterQuery).then(data => {
       if (this.get('_loadSuggestionsId') === loadSuggestionsId) {
         this.set('suggestions', data);
+
+        let selectionIdx = this.get('selectionIdx');
+        if (selectionIdx < 0 || selectionIdx >= data.length) {
+          this.set('selectionIdx', 0);
+        }
       } // else ignore because newer load promise already started
     });
   },
@@ -163,6 +168,7 @@ export default Ember.Component.extend({
           that.set('caretStart', caretPosition);
           that.set('caretEnd', null);
           that.get('suggestions').splice(0, that.get('suggestions.length'));
+          that.set('selectionIdx', 0);
         }
       } else if (that.get('caretStart') !== null) {
         if (REGEX_WHITESPACE.test(currentChar)) {
@@ -252,7 +258,7 @@ export default Ember.Component.extend({
           let caretPosition = getCaretPosition(input) - 1,
             prevChar = input.value[caretPosition - 1];
           that.set('caretPosition', caretPosition);
-          that.set('selectionIdx', -1);
+          that.set('selectionIdx', 0);
 
           if (REGEX_WHITESPACE.test(prevChar)) {
             that.set('caretStart', null);
