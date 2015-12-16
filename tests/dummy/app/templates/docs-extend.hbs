@@ -9,7 +9,8 @@
 </p>
 <p>Example implementation:</p>
 
-<pre><code>realignTooltip: observer('caretPosition', function () {
+{{#code-block language='javascript'}}
+realignTooltip: observer('caretPosition', function () {
   let input = this.get('input'),
     coords = getCaretCoordinates(input, input.selectionEnd);
 
@@ -19,5 +20,5 @@
       top: `${coords.top}px`
     });
   });
-}),
-</code></pre>
+})
+{{/code-block}}

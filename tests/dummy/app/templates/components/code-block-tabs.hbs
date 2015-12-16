@@ -1,0 +1,9 @@
+<ul class="code-block-tabs">
+    {{#each tabs as |tab|}}
+      <li class="{{if (eq current tab) 'current-tab'}}" {{action 'active-tab' tab}}>{{tab}}</li>
+    {{/each}}
+</ul>
+
+{{yield (hash
+  tab=(component 'code-block-tab' current=current)
+)}}

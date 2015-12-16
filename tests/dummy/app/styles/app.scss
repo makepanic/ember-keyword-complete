@@ -4,6 +4,8 @@
 @import "components/keywords";
 @import "components/demo";
 @import "components/complete";
+@import "components/code-block";
+@import "components/code-block-tabs";
 @import "colors";
 
 html{
@@ -23,6 +25,7 @@ input {
 
 code{
   border-radius: 0;
+  font-size: 14px;
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -55,4 +58,8 @@ ul{
 }
 .text-right{
   text-align: right;
+}
+
+textarea{
+  border-radius: 0;
 }
