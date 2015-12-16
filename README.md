@@ -1,5 +1,7 @@
 # Ember-keyword-complete
 
+[![npm version](https://badge.fury.io/js/ember-keyword-complete.svg)](https://badge.fury.io/js/ember-keyword-complete) [![Build Status](https://travis-ci.org/makepanic/ember-keyword-complete.svg?branch=master)](https://travis-ci.org/makepanic/ember-keyword-complete)
+
 > An easy way to add keyword autocompletion to existing input/textarea elements
 
 [ember-keyword-complete demo + docs](http://makepanic.github.io/ember-keyword-complete/#/)
