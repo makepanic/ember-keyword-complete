@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/keyword-complete';
 
-const {observer, computed, run, assert} = Ember;
+const {observer, computed, run, assert, K} = Ember;
 
 const REGEX_WHITESPACE = /[\s\t]/,
   REGEX_KEYWORDS = /[0-9a-zA-Z_\.]/,
@@ -10,25 +10,11 @@ const REGEX_WHITESPACE = /[\s\t]/,
     TAB: 9,
     ENTER: 13,
     SHIFT: 16,
-    CTRL: 17,
-    ALT: 18,
     ESC: 27,
-    SPACE: 32,
-    LEFT_WINDOWS: 91,
-    RIGHT_WINDOWS: 92,
-    PAGE_UP: 33,
-    PAGE_DOWN: 34,
-    END: 35,
-    HOME: 36,
     ARROW_LEFT: 37,
     ARROW_UP: 38,
     ARROW_RIGHT: 39,
-    ARROW_DOWN: 40,
-    INSERT: 45,
-    DELETE: 46,
-    ZERO: 48,
-    A: 65,
-    Z: 90
+    ARROW_DOWN: 40
   };
 
 function setCaretPosition(element, caretPosition) {
@@ -41,6 +27,9 @@ function getCaretPosition(el) {
 
 export default Ember.Component.extend({
   layout: layout,
+
+  keyPressHandler: K,
+  keyDownHandler: K,
 
   classNames: ['auto-complete'],
   selectionIdx: -1,
@@ -71,7 +60,7 @@ export default Ember.Component.extend({
   keywordRegex: REGEX_KEYWORDS,
 
   currentSourceKey: null,
-  keyItemComponent: computed('currentSourceKey', function(){
+  keyItemComponent: computed('currentSourceKey', function () {
     let currentSourceKey = this.get('currentSourceKey');
     return currentSourceKey ? this.get('dataSources')[currentSourceKey].component : undefined;
   }),
@@ -137,11 +126,20 @@ export default Ember.Component.extend({
     });
   },
 
+  willDestroyElement: function(){
+    this._super(...arguments);
+
+    this.get('$input')
+      .off('keypress', this.get('keyPressHandler'))
+      .off('keydown', this.get('keyDownHandler'));
+  },
+
   didInsertElement: function () {
     this._super(...arguments);
     let target = this.get('target'),
       $input,
       input,
+      that = this,
       sources = this.get('dataSources');
 
     assert('keyword-complete needs a valid target element', target.length);
@@ -152,7 +150,7 @@ export default Ember.Component.extend({
     this.set('$input', $input);
     this.set('input', input);
 
-    $input.on('keypress', (ev) => {
+    function keyPressHandler(ev) {
       let caretPosition = getCaretPosition(input),
         text = $input.val(),
         prevChar = text.charAt(caretPosition - 1),
@@ -161,107 +159,117 @@ export default Ember.Component.extend({
       if (sources.hasOwnProperty(currentChar)) {
         // start of keyword autocomplete
         if (!prevChar || REGEX_WHITESPACE.test(prevChar)) {
-          this.set('currentSourceKey', currentChar);
-          this.set('caretStart', caretPosition);
-          this.set('caretEnd', null);
-          this.get('suggestions').splice(0, this.get('suggestions.length'));
+          that.set('currentSourceKey', currentChar);
+          that.set('caretStart', caretPosition);
+          that.set('caretEnd', null);
+          that.get('suggestions').splice(0, that.get('suggestions.length'));
         }
-      } else if (this.get('caretStart') !== null) {
+      } else if (that.get('caretStart') !== null) {
         if (REGEX_WHITESPACE.test(currentChar)) {
           // ended because of whitespace
-          this.closeTooltip();
+          that.closeTooltip();
         } else {
-          this.set('caretEnd', null);
+          that.set('caretEnd', null);
         }
       }
+      that.set('caretPosition', caretPosition + 1);
+    }
 
-      this.set('caretPosition', caretPosition + 1);
-    });
-
-    $input.on('keydown', (ev) => {
-      let visible = this.get('tooltipVisible');
+    function keyDownHandler(ev) {
+      let visible = that.get('tooltipVisible');
       if (ev.ctrlKey || ev.altKey || ev.metaKey || ev.which === KEYS.SHIFT) {
         return;
       }
 
       if (ev.which === KEYS.ESC) {
-        this.set('selectionIdx', -1);
-        this.closeTooltip();
+        that.set('selectionIdx', -1);
+        that.closeTooltip();
         return;
       }
 
-      if (this.get('caretPosition') < this.get('caretStart')) {
-        this.closeTooltip();
+      if (that.get('caretPosition') < that.get('caretStart')) {
+        that.closeTooltip();
         return false;
       }
 
-      if (this.get('caretStart') === null && ev.which === KEYS.BACKSPACE) {
+      if (that.get('caretStart') === null && ev.which === KEYS.BACKSPACE) {
         // see if he previous keyword could be an autocomplete keyword
         let position = getCaretPosition(input),
           prevChar = '',
           prevCharOk = true;
 
-        this.set('caretPosition', position);
+        that.set('caretPosition', position);
 
         while (prevCharOk && position >= 0) {
           position -= 1;
           prevChar = input.value[position];
 
           if (sources.hasOwnProperty(prevChar)) {
-            this.set('currentSourceKey', prevChar);
+            that.set('currentSourceKey', prevChar);
             prevChar = input.value[position - 1];
             if (!prevChar || REGEX_WHITESPACE.test(prevChar)) {
-              this.set('caretStart', position);
+              that.set('caretStart', position);
               break;
             }
           }
 
-          prevCharOk = this.get('keywordRegex').test(prevChar);
+          prevCharOk = that.get('keywordRegex').test(prevChar);
         }
       }
 
-      let selectionIdx = this.get('selectionIdx');
+      let selectionIdx = that.get('selectionIdx');
       switch (ev.which) {
         case KEYS.ENTER:
         case KEYS.TAB:
           if (selectionIdx > -1) {
-            this.applySelection(this.get('suggestions')[selectionIdx]);
+            that.applySelection(that.get('suggestions')[selectionIdx]);
           } else {
             return true;
           }
           ev.stopImmediatePropagation();
           return false;
         case KEYS.ARROW_UP:
-          if (!visible) { return; }
+          if (!visible) {
+            return;
+          }
           if (selectionIdx - 1 > -1) {
-            this.decrementProperty('selectionIdx');
+            that.decrementProperty('selectionIdx');
           } else {
-            this.set('selectionIdx', this.get('suggestions.length') - 1);
+            that.set('selectionIdx', that.get('suggestions.length') - 1);
           }
           return false;
         case KEYS.ARROW_DOWN:
-          if (!visible) { return; }
-          if (selectionIdx + 1 < this.get('suggestions.length')) {
-            this.incrementProperty('selectionIdx');
+          if (!visible) {
+            return;
+          }
+          if (selectionIdx + 1 < that.get('suggestions.length')) {
+            that.incrementProperty('selectionIdx');
           } else {
             // next round
-            this.set('selectionIdx', 0);
+            that.set('selectionIdx', 0);
           }
           return false;
         case KEYS.BACKSPACE:
           let caretPosition = getCaretPosition(input);
-          this.set('caretPosition', caretPosition);
-          this.set('selectionIdx', -1);
-          if (this.get('caretStart') !== null) {
-            this.set('caretEnd', caretPosition - 1);
+          that.set('caretPosition', caretPosition);
+          that.set('selectionIdx', -1);
+          if (that.get('caretStart') !== null) {
+            that.set('caretEnd', caretPosition - 1);
           }
 
           if (caretPosition === 0) {
-            this.closeTooltip();
+            that.closeTooltip();
           }
           break;
       }
-    });
+    }
+
+    $input
+      .on('keypress', keyPressHandler)
+      .on('keydown', keyDownHandler);
+
+    this.set('keyPressHandler', keyPressHandler);
+    this.set('keyDownHandler', keyDownHandler);
   },
 
   actions: {
