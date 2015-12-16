@@ -1,3 +1,5 @@
+<h2 class="docs-title">One datasource (emojis)</h2>
+
 {{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
     <div class="relative">
       {{#complete.tooltip isVisible=complete.visible ~}}
@@ -22,24 +24,13 @@
           </div>
       {{~/complete.tooltip}}
     </div>
-    {{textarea class="demo-textarea emoji-and-users" id="complete-textarea" rows="8" value=text}}
+    {{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=text}}
 {{/keyword-complete}}
 
 <hr>
 
-<div class="row">
-    <div class="six columns">
-        <h4>emoji alias <code>:</code></h4>
+<h4>emoji alias <code>:</code></h4>
 
-      {{#keyword-list keywords=emojis as |emoji|}}
-          <code>{{emoji.val}}</code>
-      {{/keyword-list}}
-    </div>
-    <div class="six columns">
-        <h4>user alias <code>@</code></h4>
-
-      {{#keyword-list keywords=users as |user|}}
-          <code>{{user.nick}}</code>
-      {{/keyword-list}}
-    </div>
-</div>
+{{#keyword-list keywords=emojis as |emoji|}}
+    <code>{{emoji.val}}</code>
+{{/keyword-list}}

@@ -2,26 +2,24 @@
     <div class="row">
         <div class="columns">
             <div class="header">
-                <h1 class="header-title">ember-keyword-complete</h1>
+                <h1 class="header-title">ember-keyword-complete <small>{{version}}</small></h1>
               <p>MIT licensed, view source <a href="https://github.com/makepanic/ember-keyword-complete" class="header-link">on github</a></p>
             </div>
         </div>
     </div>
 
-  <p class="text-center"><strong>Note:</strong> Demo emoji icons are provided by <a href="http://emojione.com/">emojione</a>. No style is included in the addon.</p>
-
     <ul class="nav">
         <li class="nav-item">
-          {{#link-to 'emoji' class='nav-link' id='link-emoji'}}single <small>(emoji)</small>{{/link-to}}
+          {{#link-to 'docs-home' class='nav-link' id='link-home'}}home{{/link-to}}
         </li>
         <li class="nav-item">
-          {{#link-to 'emoji-and-users' class='nav-link' id='link-emoji-and-users'}}multiple <small>(emoji &amp; users)</small>{{/link-to}}
+          {{#link-to 'demos' class='nav-link' id='link-demos'}}demos{{/link-to}}
+        </li>
+        <li class="nav-item">
+          {{#link-to 'docs-extend' class='nav-link' id='link-extend'}}extending{{/link-to}}
         </li>
     </ul>
 
   {{outlet}}
 
-    <hr>
-
-  {{docs-extending}}
 </div>
