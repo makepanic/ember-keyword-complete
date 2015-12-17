@@ -12,6 +12,11 @@ Router.map(function() {
     this.route('emoji');
     this.route('emoji-and-users');
   });
+
+  this.route('api', function() {
+    this.route('keyword-complete');
+    this.route('file', {path: ':filename'}, function() {});
+  });
 });
 
 export default Router;

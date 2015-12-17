@@ -1,0 +1,54 @@
+@import "../colors";
+
+.jsdoc-ast-item{
+  td{
+    vertical-align: top;
+  }
+}
+
+.ast-file-title{
+
+}
+.ast-file-subtitle{
+  font-size: 20px;
+}
+.ast-file-path{
+  color: $black-1;
+  font-size: 16px;
+}
+.ast-file-name{
+  font-size: 30px;
+}
+
+.ast-name{
+  font-size: 15px;
+  font-weight: bold;
+  font-family: monospace;
+}
+.ast-type{
+  font-style: italic;
+}
+.ast-default{
+  font-size: 14px;
+
+  span{
+    color: $black-1;
+  }
+}
+.ast-examples{
+  pre[class*="language-"]{
+    padding-top: 10px !important;
+  }
+}
+.ast-types{
+}
+
+.ast-params{
+  .ast-param{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .ast-type, .ast-name{
+    display: inline-block;
+  }
+}

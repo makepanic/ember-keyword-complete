@@ -1,0 +1,432 @@
+[
+  {
+    "comment": "/**\n   * Flag that represents whether the item is active.\n   * @property active\n   * @type boolean\n   * @default false\n   * @public\n   */",
+    "meta": {
+      "range": [
+        286,
+        299
+      ],
+      "filename": "keyword-complete-tooltip-item.js",
+      "lineno": 12,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000017",
+        "name": "active",
+        "type": "Literal",
+        "value": false
+      }
+    },
+    "description": "Flag that represents whether the item is active.",
+    "properties": [
+      {
+        "name": "active"
+      }
+    ],
+    "type": {
+      "names": [
+        "boolean"
+      ]
+    },
+    "defaultvalue": "false",
+    "access": "public",
+    "name": "active",
+    "longname": "active",
+    "kind": "member",
+    "scope": "global"
+  },
+  {
+    "comment": "/**\n * Function to set the caret position for a given element.\n * @param {HTMLInputElement|HTMLTextAreaElement} element\n * @param {Number} caretPosition\n */",
+    "meta": {
+      "range": [
+        541,
+        672
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 25,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000110",
+        "name": "setCaretPosition",
+        "type": "FunctionDeclaration",
+        "paramnames": [
+          "element",
+          "caretPosition"
+        ]
+      }
+    },
+    "description": "Function to set the caret position for a given element.",
+    "params": [
+      {
+        "type": {
+          "names": [
+            "HTMLInputElement",
+            "HTMLTextAreaElement"
+          ]
+        },
+        "name": "element"
+      },
+      {
+        "type": {
+          "names": [
+            "Number"
+          ]
+        },
+        "name": "caretPosition"
+      }
+    ],
+    "name": "setCaretPosition",
+    "longname": "setCaretPosition",
+    "kind": "function",
+    "scope": "global"
+  },
+  {
+    "comment": "/**\n * Function to read the current caret position for a given element\n * @param {HTMLInputElement|HTMLTextAreaElement} el\n * @returns {Number}\n */",
+    "meta": {
+      "range": [
+        821,
+        882
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 34,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000127",
+        "name": "getCaretPosition",
+        "type": "FunctionDeclaration",
+        "paramnames": [
+          "el"
+        ]
+      }
+    },
+    "description": "Function to read the current caret position for a given element",
+    "params": [
+      {
+        "type": {
+          "names": [
+            "HTMLInputElement",
+            "HTMLTextAreaElement"
+          ]
+        },
+        "name": "el"
+      }
+    ],
+    "returns": [
+      {
+        "type": {
+          "names": [
+            "Number"
+          ]
+        }
+      }
+    ],
+    "name": "getCaretPosition",
+    "longname": "getCaretPosition",
+    "kind": "function",
+    "scope": "global"
+  },
+  {
+    "comment": "/**\n   * Async suggestion loading debounce interval.\n   * @property loadDebounceInterval\n   * @type Number\n   * @default 300\n   * @public\n   */",
+    "meta": {
+      "range": [
+        1072,
+        1097
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 46,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000143",
+        "name": "loadDebounceInterval",
+        "type": "Literal",
+        "value": 300
+      }
+    },
+    "description": "Async suggestion loading debounce interval.",
+    "properties": [
+      {
+        "name": "loadDebounceInterval"
+      }
+    ],
+    "type": {
+      "names": [
+        "Number"
+      ]
+    },
+    "defaultvalue": "300",
+    "access": "public",
+    "name": "loadDebounceInterval",
+    "longname": "loadDebounceInterval",
+    "kind": "member",
+    "scope": "global"
+  },
+  {
+    "comment": "/**\n   * Minimum query length before suggestion loading is triggered.\n   * @property minQueryLength\n   * @type Number\n   * @default 2\n   * @public\n   */",
+    "meta": {
+      "range": [
+        1257,
+        1274
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 55,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000145",
+        "name": "minQueryLength",
+        "type": "Literal",
+        "value": 2
+      }
+    },
+    "description": "Minimum query length before suggestion loading is triggered.",
+    "properties": [
+      {
+        "name": "minQueryLength"
+      }
+    ],
+    "type": {
+      "names": [
+        "Number"
+      ]
+    },
+    "defaultvalue": "2",
+    "access": "public",
+    "name": "minQueryLength",
+    "longname": "minQueryLength",
+    "kind": "member",
+    "scope": "global"
+  },
+  {
+    "comment": "/**\n   * Object that represents all available data sources for the keyword completion.\n   * The datasource value object must contain a method to extract a string from a given suggestion.\n   * This `extractDataString(suggestion)` will be used once an suggestion was chosen to be used.\n   * In addition a `loadSuggestion(query)` must be present that returns a promise that resolves\n   * an array of suggestion for the passed `query` string.\n   * An additional `component` property can be set that is later used in the `keyword-complete-tooltip-item`\n   * if the component is not in block form.\n   * @property dataSources\n   * @type Object\n   * @default {}\n   * @public\n   * @example\n   * component.set('dataSources', {\n   *  '@': {\n   *     component: 'user-item',\n   *     extractDataString(item) {\n   *       return `@${item.nick}`;\n   *     },\n   *     loadSuggestions(query) {\n   *       const queryLower = query.substring(1).toLowerCase();\n   *       return RSVP.resolve(ENV.APP.USERS.filter(item => item.nick.toLowerCase().startsWith(queryLower)));\n   *     }\n   *  }\n   * });\n   */",
+    "meta": {
+      "range": [
+        2368,
+        2383
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 83,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000147",
+        "name": "dataSources",
+        "type": "ObjectExpression",
+        "value": "{}"
+      }
+    },
+    "description": "Object that represents all available data sources for the keyword completion.\nThe datasource value object must contain a method to extract a string from a given suggestion.\nThis `extractDataString(suggestion)` will be used once an suggestion was chosen to be used.\nIn addition a `loadSuggestion(query)` must be present that returns a promise that resolves\nan array of suggestion for the passed `query` string.\nAn additional `component` property can be set that is later used in the `keyword-complete-tooltip-item`\nif the component is not in block form.",
+    "properties": [
+      {
+        "name": "dataSources"
+      }
+    ],
+    "type": {
+      "names": [
+        "Object"
+      ]
+    },
+    "defaultvalue": "{}",
+    "access": "public",
+    "examples": [
+      "component.set('dataSources', {\n '@': {\n    component: 'user-item',\n    extractDataString(item) {\n      return `@${item.nick}`;\n    },\n    loadSuggestions(query) {\n      const queryLower = query.substring(1).toLowerCase();\n      return RSVP.resolve(ENV.APP.USERS.filter(item => item.nick.toLowerCase().startsWith(queryLower)));\n    }\n }\n});"
+    ],
+    "name": "dataSources",
+    "longname": "dataSources",
+    "kind": "member",
+    "scope": "global"
+  },
+  {
+    "comment": "/**\n   * Autocompletion target text (usually same value as the target value).\n   * @property text\n   * @type String\n   * @default ''\n   * @public\n   */",
+    "meta": {
+      "range": [
+        2542,
+        2550
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 92,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000149",
+        "name": "text",
+        "type": "Literal",
+        "value": ""
+      }
+    },
+    "description": "Autocompletion target text (usually same value as the target value).",
+    "properties": [
+      {
+        "name": "text"
+      }
+    ],
+    "type": {
+      "names": [
+        "String"
+      ]
+    },
+    "defaultvalue": "''",
+    "access": "public",
+    "name": "text",
+    "longname": "text",
+    "kind": "member",
+    "scope": "global"
+  },
+  {
+    "comment": "/**\n   * Target element selector (Should select an input or textarea).\n   * @property target\n   * @type String\n   * @default ''\n   * @example '#message-textarea'\n   * @public\n   */",
+    "meta": {
+      "range": [
+        2738,
+        2748
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 102,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000151",
+        "name": "target",
+        "type": "Literal",
+        "value": ""
+      }
+    },
+    "description": "Target element selector (Should select an input or textarea).",
+    "properties": [
+      {
+        "name": "target"
+      }
+    ],
+    "type": {
+      "names": [
+        "String"
+      ]
+    },
+    "defaultvalue": "''",
+    "examples": [
+      "'#message-textarea'"
+    ],
+    "access": "public",
+    "name": "target",
+    "longname": "target",
+    "kind": "member",
+    "scope": "global"
+  },
+  {
+    "comment": "/**\n   * Computed property that represents the current keyword suggestion query.\n   * @property filterQuery\n   * @type String\n   * @default ''\n   * @example '@embe'\n   * @public\n   */",
+    "meta": {
+      "range": [
+        3295,
+        3702
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 132,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000180",
+        "name": "filterQuery",
+        "type": "CallExpression",
+        "value": ""
+      }
+    },
+    "description": "Computed property that represents the current keyword suggestion query.",
+    "properties": [
+      {
+        "name": "filterQuery"
+      }
+    ],
+    "type": {
+      "names": [
+        "String"
+      ]
+    },
+    "defaultvalue": "''",
+    "examples": [
+      "'@embe'"
+    ],
+    "access": "public",
+    "name": "filterQuery",
+    "longname": "filterQuery",
+    "kind": "member",
+    "scope": "global"
+  },
+  {
+    "comment": "/**\n   * Computed property that represents whether the completion suggestion tooltip should be visible\n   * @property tooltipVisible\n   * @type boolean\n   * @default false\n   * @public\n   */",
+    "meta": {
+      "range": [
+        4985,
+        5222
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 181,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000380",
+        "name": "tooltipVisible",
+        "type": "CallExpression",
+        "value": ""
+      }
+    },
+    "description": "Computed property that represents whether the completion suggestion tooltip should be visible",
+    "properties": [
+      {
+        "name": "tooltipVisible"
+      }
+    ],
+    "type": {
+      "names": [
+        "boolean"
+      ]
+    },
+    "defaultvalue": "false",
+    "access": "public",
+    "name": "tooltipVisible",
+    "longname": "tooltipVisible",
+    "kind": "member",
+    "scope": "global"
+  },
+  {
+    "comment": "/**\n   * Function to close the completion suggestion tooltip\n   * @property tooltipVisible\n   * @type Function\n   * @public\n   * @returns {void}\n   */",
+    "meta": {
+      "range": [
+        5380,
+        5610
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 195,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000410",
+        "name": "closeTooltip",
+        "type": "FunctionExpression"
+      }
+    },
+    "description": "Function to close the completion suggestion tooltip",
+    "properties": [
+      {
+        "name": "tooltipVisible"
+      }
+    ],
+    "type": {
+      "names": [
+        "function"
+      ]
+    },
+    "access": "public",
+    "returns": [
+      {
+        "type": {
+          "names": [
+            "void"
+          ]
+        }
+      }
+    ],
+    "name": "closeTooltip",
+    "longname": "closeTooltip",
+    "kind": "function",
+    "scope": "global"
+  },
+  {
+    "kind": "package",
+    "longname": "package:undefined",
+    "files": [
+      "ember-keyword-complete/addon/components/keyword-complete-tooltip-item.js",
+      "ember-keyword-complete/addon/components/keyword-complete-tooltip.js",
+      "ember-keyword-complete/addon/components/keyword-complete.js"
+    ]
+  }
+]

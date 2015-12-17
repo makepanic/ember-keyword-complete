@@ -1,0 +1,49 @@
+
+<h3 class="ast-file-title">
+    <span class="ast-file-name">{{model.filename}}</span>
+    <span class="ast-file-path">{{model.path}}</span>
+</h3>
+
+<h4 class="ast-file-subtitle">public</h4>
+
+<table class="u-full-width">
+    <colgroup>
+        <col width="30%">
+        <col width="70%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>Property</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each publicMember as |item|}}
+      {{jsdoc-ast-item item=item}}
+    {{/each}}
+    </tbody>
+</table>
+
+{{#if privateMember}}
+    <h4 class="ast-file-subtitle">private</h4>
+
+    <table class="u-full-width">
+        <colgroup>
+            <col width="30%">
+            <col width="70%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>Property</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each privateMember as |item|}}
+          {{jsdoc-ast-item item=item}}
+        {{/each}}
+        </tbody>
+    </table>
+{{/if}}
+
+{{outlet}}

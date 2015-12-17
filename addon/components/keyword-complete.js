@@ -17,24 +17,118 @@ const REGEX_WHITESPACE = /[\s\t]/,
     ARROW_DOWN: 40
   };
 
+/**
+ * Function to set the caret position for a given element.
+ * @param {HTMLInputElement|HTMLTextAreaElement} element
+ * @param {Number} caretPosition
+ */
 function setCaretPosition(element, caretPosition) {
   element.focus();
   element.setSelectionRange(caretPosition, caretPosition);
 }
+/**
+ * Function to read the current caret position for a given element
+ * @param {HTMLInputElement|HTMLTextAreaElement} el
+ * @returns {Number}
+ */
 function getCaretPosition(el) {
   return el.selectionStart;
 }
 
 export default Ember.Component.extend({
-  layout: layout,
+  /**
+   * Async suggestion loading debounce interval.
+   * @property loadDebounceInterval
+   * @type Number
+   * @default 300
+   * @public
+   */
+  loadDebounceInterval: 300,
 
-  keyPressHandler: K,
-  keyDownHandler: K,
+  /**
+   * Minimum query length before suggestion loading is triggered.
+   * @property minQueryLength
+   * @type Number
+   * @default 2
+   * @public
+   */
+  minQueryLength: 2,
 
-  classNames: ['auto-complete'],
-  selectionIdx: -1,
-  target: '',
+  /**
+   * Object that represents all available data sources for the keyword completion.
+   * The datasource value object must contain a method to extract a string from a given suggestion.
+   * This `extractDataString(suggestion)` will be used once an suggestion was chosen to be used.
+   * In addition a `loadSuggestion(query)` must be present that returns a promise that resolves
+   * an array of suggestion for the passed `query` string.
+   * An additional `component` property can be set that is later used in the `keyword-complete-tooltip-item`
+   * if the component is not in block form.
+   * @property dataSources
+   * @type Object
+   * @default {}
+   * @public
+   * @example
+   * component.set('dataSources', {
+   *  '@': {
+   *     component: 'user-item',
+   *     extractDataString(item) {
+   *       return `@${item.nick}`;
+   *     },
+   *     loadSuggestions(query) {
+   *       const queryLower = query.substring(1).toLowerCase();
+   *       return RSVP.resolve(ENV.APP.USERS.filter(item => item.nick.toLowerCase().startsWith(queryLower)));
+   *     }
+   *  }
+   * });
+   */
+  dataSources: {},
+
+  /**
+   * Autocompletion target text (usually same value as the target value).
+   * @property text
+   * @type String
+   * @default ''
+   * @public
+   */
   text: '',
+
+  /**
+   * Target element selector (Should select an input or textarea).
+   * @property target
+   * @type String
+   * @default ''
+   * @example '#message-textarea'
+   * @public
+   */
+  target: '',
+
+  // layout fields
+  layout: layout,
+  classNames: ['auto-complete'],
+
+  // private values (shouldn't be changed externally)
+  caretPosition: 0,
+  caretStart: null,
+  caretEnd: null,
+  selectionIdx: -1,
+
+  suggestions: [],
+  keywordRegex: REGEX_KEYWORDS,
+  currentSourceKey: null,
+
+  _keyPressHandler: K,
+
+  _keyDownHandler: K,
+
+  _loadSuggestionsId: -1,
+
+  /**
+   * Computed property that represents the current keyword suggestion query.
+   * @property filterQuery
+   * @type String
+   * @default ''
+   * @example '@embe'
+   * @public
+   */
   filterQuery: computed('text', 'caretStart', 'caretEnd', function () {
     let query = '',
       text = this.get('text'),
@@ -51,22 +145,10 @@ export default Ember.Component.extend({
     return query;
   }),
 
-  minQueryLength: 2,
-  caretPosition: 0,
-  caretStart: null,
-  caretEnd: null,
-  loadDebounceInterval: 300,
-
-  keywordRegex: REGEX_KEYWORDS,
-
-  currentSourceKey: null,
   keyItemComponent: computed('currentSourceKey', function () {
     let currentSourceKey = this.get('currentSourceKey');
     return currentSourceKey ? this.get('dataSources')[currentSourceKey].component : undefined;
   }),
-  dataSources: {},
-  suggestions: [],
-  _loadSuggestionsId: -1,
 
   setSuggestions(filterQuery, currentSourceKey) {
     let loadSuggestionsId = this.get('_loadSuggestionsId') + 1;
@@ -89,6 +171,13 @@ export default Ember.Component.extend({
     }
   }),
 
+  /**
+   * Computed property that represents whether the completion suggestion tooltip should be visible
+   * @property tooltipVisible
+   * @type boolean
+   * @default false
+   * @public
+   */
   tooltipVisible: computed('filterQuery.length', 'minQueryLength', 'suggestions.length', function () {
     return !!(
       this.get('filterQuery.length') > this.get('minQueryLength') &&
@@ -96,6 +185,13 @@ export default Ember.Component.extend({
     );
   }),
 
+  /**
+   * Function to close the completion suggestion tooltip
+   * @property tooltipVisible
+   * @type Function
+   * @public
+   * @returns {void}
+   */
   closeTooltip(){
     this.get('suggestions').splice(0, this.get('suggestions.length'));
     this.set('selectionIdx', -1);
@@ -127,12 +223,12 @@ export default Ember.Component.extend({
     });
   },
 
-  willDestroyElement: function(){
+  willDestroyElement: function () {
     this._super(...arguments);
 
     this.get('$input')
-      .off('keypress', this.get('keyPressHandler'))
-      .off('keydown', this.get('keyDownHandler'));
+      .off('keypress', this.get('_keyPressHandler'))
+      .off('keydown', this.get('_keyDownHandler'));
   },
 
   didInsertElement: function () {
@@ -276,8 +372,8 @@ export default Ember.Component.extend({
       .on('keypress', keyPressHandler)
       .on('keydown', keyDownHandler);
 
-    this.set('keyPressHandler', keyPressHandler);
-    this.set('keyDownHandler', keyDownHandler);
+    this.set('_keyPressHandler', keyPressHandler);
+    this.set('_keyDownHandler', keyDownHandler);
   },
 
   actions: {

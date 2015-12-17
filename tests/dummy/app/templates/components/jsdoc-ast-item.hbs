@@ -1,0 +1,30 @@
+<td>
+    <div class="ast-name">{{item.name}}</div>
+
+  {{#if item.defaultvalue}}
+      <div class="ast-default">
+          <span>default:</span> {{#code-inline language='javascript'}}{{item.defaultvalue}}{{/code-inline}}</div>
+  {{/if}}
+</td>
+<td>
+  {{#if item.params}}
+      <div class="ast-params">
+          <div class="ast-type">{{item.type.names}}</div> ({{#each item.params as |param|}}
+          <div class="ast-param"><div class="ast-name">{{param.name}}</div>: <div class="ast-type">{{param.type.names}}</div></div>
+      {{/each}}){{#if item.returns}}: {{#each item.returns as |returns|}}{{returns.type.names}}{{/each}}{{/if}}
+      </div>
+  {{else}}
+      <div class="ast-type">{{item.type.names}} {{#if item.returns}}: {{#each item.returns as |returns|}}{{returns.type.names}}{{/each}}{{/if}}</div>
+  {{/if}}
+
+    <div class="ast-description">{{markdown-to-html markdown=item.description}}</div>
+
+  {{#if item.examples}}
+    <h6>Example:</h6>
+    <div class="ast-examples">
+      {{#each item.examples as |example|}}
+        {{#code-block language='javascript'}}{{example}}{{/code-block}}
+      {{/each}}
+    </div>
+  {{/if}}
+</td>

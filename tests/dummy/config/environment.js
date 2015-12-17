@@ -1,5 +1,8 @@
 /* jshint node: true */
 
+var fs = require('fs'),
+  path = require('path');
+
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'dummy',
@@ -14,6 +17,8 @@ module.exports = function(environment) {
     },
 
     APP: {
+      AST: JSON.parse(fs.readFileSync(path.join(__dirname, 'ember-keyword-complete.ast.json'), {encoding: 'utf8'})),
+
       // Here you can pass flags/options to your application instance
       // when it is created
       EMOJIS: [{"val": "smile"}, {"val": "smiley"}, {"val": "grinning"}, {"val": "blush"}, {"val": "relaxed"}, {"val": "wink"}, {"val": "heart_eyes"}, {"val": "kissing_heart"}, {"val": "kissing_closed_eyes"}, {"val": "kissing"}, {"val": "kissing_smiling_eyes"}, {"val": "stuck_out_tongue_winking_eye"}, {"val": "stuck_out_tongue_closed_eyes"}, {"val": "stuck_out_tongue"}, {"val": "flushed"}, {"val": "grin"}, {"val": "pensive"}, {"val": "relieved"}, {"val": "unamused"}, {"val": "disappointed"}, {"val": "persevere"}, {"val": "cry"}, {"val": "joy"}, {"val": "sob"}, {"val": "sleepy"}],

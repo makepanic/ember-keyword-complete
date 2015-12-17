@@ -11,3 +11,6 @@ pre[class*="language-"] {
     border: 0;
   }
 }
+:not(pre) > code[class*="language-"]{
+  border-radius: 0 !important;
+}
