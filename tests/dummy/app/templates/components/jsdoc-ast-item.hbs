@@ -9,7 +9,7 @@
 <td>
   {{#if item.params}}
       <div class="ast-params">
-          <div class="ast-type">{{item.type.names}}</div> ({{#each item.params as |param|}}
+          <div class="ast-type">{{#if item.type}}{{item.type.names}}{{else}}{{item.kind}}{{/if}}</div> ({{#each item.params as |param|}}
           <div class="ast-param"><div class="ast-name">{{param.name}}</div>: <div class="ast-type">{{param.type.names}}</div></div>
       {{/each}}){{#if item.returns}}: {{#each item.returns as |returns|}}{{returns.type.names}}{{/each}}{{/if}}
       </div>

@@ -35,6 +35,14 @@ function getCaretPosition(el) {
   return el.selectionStart;
 }
 
+/**
+ * Input/Textarea wrapping component that adds listeners for keyboard interaction and yields data.
+ *
+ * @class KeywordComplete
+ * @module ember-keyword-complete/components/keyword-complete
+ * @extends Ember.Component
+ * @public
+ */
 export default Ember.Component.extend({
   /**
    * Async suggestion loading debounce interval.
@@ -116,9 +124,7 @@ export default Ember.Component.extend({
   currentSourceKey: null,
 
   _keyPressHandler: K,
-
   _keyDownHandler: K,
-
   _loadSuggestionsId: -1,
 
   /**
@@ -127,7 +133,7 @@ export default Ember.Component.extend({
    * @type String
    * @default ''
    * @example '@embe'
-   * @public
+   * @private
    */
   filterQuery: computed('text', 'caretStart', 'caretEnd', function () {
     let query = '',
@@ -176,7 +182,7 @@ export default Ember.Component.extend({
    * @property tooltipVisible
    * @type boolean
    * @default false
-   * @public
+   * @private
    */
   tooltipVisible: computed('filterQuery.length', 'minQueryLength', 'suggestions.length', function () {
     return !!(

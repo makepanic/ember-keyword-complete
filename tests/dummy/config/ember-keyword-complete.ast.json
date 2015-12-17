@@ -125,14 +125,35 @@
     "scope": "global"
   },
   {
+    "comment": "/**\n * Input/Textarea wrapping component that adds listeners for keyboard interaction and yields data.\n *\n * @class KeywordComplete\n * @module ember-keyword-complete/components/keyword-complete\n * @extends Ember.Component\n * @public\n */",
+    "meta": {
+      "range": [
+        884,
+        1120
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 38,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {}
+    },
+    "description": "Input/Textarea wrapping component that adds listeners for keyboard interaction and yields data.",
+    "kind": "module",
+    "name": "ember-keyword-complete/components/keyword-complete",
+    "augments": [
+      "Ember.Component"
+    ],
+    "access": "public",
+    "longname": "module:ember-keyword-complete/components/keyword-complete"
+  },
+  {
     "comment": "/**\n   * Async suggestion loading debounce interval.\n   * @property loadDebounceInterval\n   * @type Number\n   * @default 300\n   * @public\n   */",
     "meta": {
       "range": [
-        1072,
-        1097
+        1309,
+        1334
       ],
       "filename": "keyword-complete.js",
-      "lineno": 46,
+      "lineno": 54,
       "path": "ember-keyword-complete/addon/components",
       "code": {
         "id": "astnode100000143",
@@ -155,19 +176,20 @@
     "defaultvalue": "300",
     "access": "public",
     "name": "loadDebounceInterval",
-    "longname": "loadDebounceInterval",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~loadDebounceInterval",
     "kind": "member",
-    "scope": "global"
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
   },
   {
     "comment": "/**\n   * Minimum query length before suggestion loading is triggered.\n   * @property minQueryLength\n   * @type Number\n   * @default 2\n   * @public\n   */",
     "meta": {
       "range": [
-        1257,
-        1274
+        1494,
+        1511
       ],
       "filename": "keyword-complete.js",
-      "lineno": 55,
+      "lineno": 63,
       "path": "ember-keyword-complete/addon/components",
       "code": {
         "id": "astnode100000145",
@@ -190,19 +212,20 @@
     "defaultvalue": "2",
     "access": "public",
     "name": "minQueryLength",
-    "longname": "minQueryLength",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~minQueryLength",
     "kind": "member",
-    "scope": "global"
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
   },
   {
     "comment": "/**\n   * Object that represents all available data sources for the keyword completion.\n   * The datasource value object must contain a method to extract a string from a given suggestion.\n   * This `extractDataString(suggestion)` will be used once an suggestion was chosen to be used.\n   * In addition a `loadSuggestion(query)` must be present that returns a promise that resolves\n   * an array of suggestion for the passed `query` string.\n   * An additional `component` property can be set that is later used in the `keyword-complete-tooltip-item`\n   * if the component is not in block form.\n   * @property dataSources\n   * @type Object\n   * @default {}\n   * @public\n   * @example\n   * component.set('dataSources', {\n   *  '@': {\n   *     component: 'user-item',\n   *     extractDataString(item) {\n   *       return `@${item.nick}`;\n   *     },\n   *     loadSuggestions(query) {\n   *       const queryLower = query.substring(1).toLowerCase();\n   *       return RSVP.resolve(ENV.APP.USERS.filter(item => item.nick.toLowerCase().startsWith(queryLower)));\n   *     }\n   *  }\n   * });\n   */",
     "meta": {
       "range": [
-        2368,
-        2383
+        2605,
+        2620
       ],
       "filename": "keyword-complete.js",
-      "lineno": 83,
+      "lineno": 91,
       "path": "ember-keyword-complete/addon/components",
       "code": {
         "id": "astnode100000147",
@@ -228,19 +251,20 @@
       "component.set('dataSources', {\n '@': {\n    component: 'user-item',\n    extractDataString(item) {\n      return `@${item.nick}`;\n    },\n    loadSuggestions(query) {\n      const queryLower = query.substring(1).toLowerCase();\n      return RSVP.resolve(ENV.APP.USERS.filter(item => item.nick.toLowerCase().startsWith(queryLower)));\n    }\n }\n});"
     ],
     "name": "dataSources",
-    "longname": "dataSources",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~dataSources",
     "kind": "member",
-    "scope": "global"
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
   },
   {
     "comment": "/**\n   * Autocompletion target text (usually same value as the target value).\n   * @property text\n   * @type String\n   * @default ''\n   * @public\n   */",
     "meta": {
       "range": [
-        2542,
-        2550
+        2779,
+        2787
       ],
       "filename": "keyword-complete.js",
-      "lineno": 92,
+      "lineno": 100,
       "path": "ember-keyword-complete/addon/components",
       "code": {
         "id": "astnode100000149",
@@ -263,19 +287,20 @@
     "defaultvalue": "''",
     "access": "public",
     "name": "text",
-    "longname": "text",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~text",
     "kind": "member",
-    "scope": "global"
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
   },
   {
     "comment": "/**\n   * Target element selector (Should select an input or textarea).\n   * @property target\n   * @type String\n   * @default ''\n   * @example '#message-textarea'\n   * @public\n   */",
     "meta": {
       "range": [
-        2738,
-        2748
+        2975,
+        2985
       ],
       "filename": "keyword-complete.js",
-      "lineno": 102,
+      "lineno": 110,
       "path": "ember-keyword-complete/addon/components",
       "code": {
         "id": "astnode100000151",
@@ -301,19 +326,20 @@
     ],
     "access": "public",
     "name": "target",
-    "longname": "target",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~target",
     "kind": "member",
-    "scope": "global"
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
   },
   {
-    "comment": "/**\n   * Computed property that represents the current keyword suggestion query.\n   * @property filterQuery\n   * @type String\n   * @default ''\n   * @example '@embe'\n   * @public\n   */",
+    "comment": "/**\n   * Computed property that represents the current keyword suggestion query.\n   * @property filterQuery\n   * @type String\n   * @default ''\n   * @example '@embe'\n   * @private\n   */",
     "meta": {
       "range": [
-        3295,
-        3702
+        3531,
+        3938
       ],
       "filename": "keyword-complete.js",
-      "lineno": 132,
+      "lineno": 138,
       "path": "ember-keyword-complete/addon/components",
       "code": {
         "id": "astnode100000180",
@@ -337,21 +363,22 @@
     "examples": [
       "'@embe'"
     ],
-    "access": "public",
+    "access": "private",
     "name": "filterQuery",
-    "longname": "filterQuery",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~filterQuery",
     "kind": "member",
-    "scope": "global"
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
   },
   {
-    "comment": "/**\n   * Computed property that represents whether the completion suggestion tooltip should be visible\n   * @property tooltipVisible\n   * @type boolean\n   * @default false\n   * @public\n   */",
+    "comment": "/**\n   * Computed property that represents whether the completion suggestion tooltip should be visible\n   * @property tooltipVisible\n   * @type boolean\n   * @default false\n   * @private\n   */",
     "meta": {
       "range": [
-        4985,
-        5222
+        5222,
+        5459
       ],
       "filename": "keyword-complete.js",
-      "lineno": 181,
+      "lineno": 187,
       "path": "ember-keyword-complete/addon/components",
       "code": {
         "id": "astnode100000380",
@@ -372,21 +399,22 @@
       ]
     },
     "defaultvalue": "false",
-    "access": "public",
+    "access": "private",
     "name": "tooltipVisible",
-    "longname": "tooltipVisible",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~tooltipVisible",
     "kind": "member",
-    "scope": "global"
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
   },
   {
     "comment": "/**\n   * Function to close the completion suggestion tooltip\n   * @property tooltipVisible\n   * @type Function\n   * @public\n   * @returns {void}\n   */",
     "meta": {
       "range": [
-        5380,
-        5610
+        5617,
+        5847
       ],
       "filename": "keyword-complete.js",
-      "lineno": 195,
+      "lineno": 201,
       "path": "ember-keyword-complete/addon/components",
       "code": {
         "id": "astnode100000410",
@@ -416,9 +444,10 @@
       }
     ],
     "name": "closeTooltip",
-    "longname": "closeTooltip",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~closeTooltip",
     "kind": "function",
-    "scope": "global"
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
   },
   {
     "kind": "package",
