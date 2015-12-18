@@ -152,11 +152,24 @@ export default Ember.Component.extend({
     return query;
   }),
 
+  /**
+   * Component name for the currently active datasource
+   * @type String
+   * @property keyItemComponent
+   * @public
+   */
   keyItemComponent: computed('currentSourceKey', function () {
     let currentSourceKey = this.get('currentSourceKey');
     return currentSourceKey ? this.get('dataSources')[currentSourceKey].component : undefined;
   }),
 
+  /**
+   * Function to trigger suggestion loading by passing a filter query and the current source key
+   * @param {String} filterQuery
+   * @param {String} currentSourceKey
+   * @example
+   * component.setSuggestions('ember', '@');
+     */
   setSuggestions(filterQuery, currentSourceKey) {
     let loadSuggestionsId = this.get('_loadSuggestionsId') + 1;
     this.set('_loadSuggestionsId', loadSuggestionsId);
@@ -207,6 +220,11 @@ export default Ember.Component.extend({
     this.set('caretEnd', null);
   },
 
+  /**
+   * Function that is called to select a datasource item
+   * @param {*} selectedItem
+   * @public
+     */
   applySelection(selectedItem){
     let start = this.get('caretStart'),
       caretPosition = this.get('caretPosition'),
@@ -241,6 +259,11 @@ export default Ember.Component.extend({
       .off('click', this.get('_tooltipCloseHandler'));
   },
 
+  /**
+   * Function called on document 'click'. Used to close the completion tooltip.
+   * @param {jQuery.Event} ev
+   * @public
+     */
   documentClickHandler(ev) {
     let $tooltip = this.get('$tooltip');
     if (
@@ -251,6 +274,12 @@ export default Ember.Component.extend({
     }
   },
 
+  /**
+   * Function called on target 'keypress'. Used to detect the start of a keyword completion.
+   * @param {jQuery.Event} ev
+   * @returns {void}
+   * @public
+     */
   keyPressHandler(ev) {
     let sources = this.get('dataSources'),
       input = this.get('input'),
@@ -280,7 +309,12 @@ export default Ember.Component.extend({
     this.set('caretPosition', caretPosition + 1);
   },
 
-
+  /**
+   * Function called on target 'keydown'. Used to handle "special" key presses.
+   * @param {jQuery.Event} ev
+   * @returns {boolean|undefined}
+   * @public
+     */
   keyDownHandler(ev) {
     let input = this.get('input'),
       sources = this.get('dataSources');

@@ -38,14 +38,14 @@
     "comment": "/**\n * Function to set the caret position for a given element.\n * @param {HTMLInputElement|HTMLTextAreaElement} element\n * @param {Number} caretPosition\n */",
     "meta": {
       "range": [
-        541,
-        672
+        544,
+        675
       ],
       "filename": "keyword-complete.js",
       "lineno": 25,
       "path": "ember-keyword-complete/addon/components",
       "code": {
-        "id": "astnode100000110",
+        "id": "astnode100000112",
         "name": "setCaretPosition",
         "type": "FunctionDeclaration",
         "paramnames": [
@@ -83,14 +83,14 @@
     "comment": "/**\n * Function to read the current caret position for a given element\n * @param {HTMLInputElement|HTMLTextAreaElement} el\n * @returns {Number}\n */",
     "meta": {
       "range": [
-        821,
-        882
+        824,
+        885
       ],
       "filename": "keyword-complete.js",
       "lineno": 34,
       "path": "ember-keyword-complete/addon/components",
       "code": {
-        "id": "astnode100000127",
+        "id": "astnode100000129",
         "name": "getCaretPosition",
         "type": "FunctionDeclaration",
         "paramnames": [
@@ -128,8 +128,8 @@
     "comment": "/**\n * Input/Textarea wrapping component that adds listeners for keyboard interaction and yields data.\n *\n * @class KeywordComplete\n * @module ember-keyword-complete/components/keyword-complete\n * @extends Ember.Component\n * @public\n */",
     "meta": {
       "range": [
-        884,
-        1120
+        887,
+        1123
       ],
       "filename": "keyword-complete.js",
       "lineno": 38,
@@ -149,14 +149,14 @@
     "comment": "/**\n   * Async suggestion loading debounce interval.\n   * @property loadDebounceInterval\n   * @type Number\n   * @default 300\n   * @public\n   */",
     "meta": {
       "range": [
-        1309,
-        1334
+        1312,
+        1337
       ],
       "filename": "keyword-complete.js",
       "lineno": 54,
       "path": "ember-keyword-complete/addon/components",
       "code": {
-        "id": "astnode100000143",
+        "id": "astnode100000145",
         "name": "loadDebounceInterval",
         "type": "Literal",
         "value": 300
@@ -185,14 +185,14 @@
     "comment": "/**\n   * Minimum query length before suggestion loading is triggered.\n   * @property minQueryLength\n   * @type Number\n   * @default 2\n   * @public\n   */",
     "meta": {
       "range": [
-        1494,
-        1511
+        1497,
+        1514
       ],
       "filename": "keyword-complete.js",
       "lineno": 63,
       "path": "ember-keyword-complete/addon/components",
       "code": {
-        "id": "astnode100000145",
+        "id": "astnode100000147",
         "name": "minQueryLength",
         "type": "Literal",
         "value": 2
@@ -221,14 +221,14 @@
     "comment": "/**\n   * Object that represents all available data sources for the keyword completion.\n   * The datasource value object must contain a method to extract a string from a given suggestion.\n   * This `extractDataString(suggestion)` will be used once an suggestion was chosen to be used.\n   * In addition a `loadSuggestion(query)` must be present that returns a promise that resolves\n   * an array of suggestion for the passed `query` string.\n   * An additional `component` property can be set that is later used in the `keyword-complete-tooltip-item`\n   * if the component is not in block form.\n   * @property dataSources\n   * @type Object\n   * @default {}\n   * @public\n   * @example\n   * component.set('dataSources', {\n   *  '@': {\n   *     component: 'user-item',\n   *     extractDataString(item) {\n   *       return `@${item.nick}`;\n   *     },\n   *     loadSuggestions(query) {\n   *       const queryLower = query.substring(1).toLowerCase();\n   *       return RSVP.resolve(ENV.APP.USERS.filter(item => item.nick.toLowerCase().startsWith(queryLower)));\n   *     }\n   *  }\n   * });\n   */",
     "meta": {
       "range": [
-        2605,
-        2620
+        2608,
+        2623
       ],
       "filename": "keyword-complete.js",
       "lineno": 91,
       "path": "ember-keyword-complete/addon/components",
       "code": {
-        "id": "astnode100000147",
+        "id": "astnode100000149",
         "name": "dataSources",
         "type": "ObjectExpression",
         "value": "{}"
@@ -260,14 +260,14 @@
     "comment": "/**\n   * Autocompletion target text (usually same value as the target value).\n   * @property text\n   * @type String\n   * @default ''\n   * @public\n   */",
     "meta": {
       "range": [
-        2779,
-        2787
+        2782,
+        2790
       ],
       "filename": "keyword-complete.js",
       "lineno": 100,
       "path": "ember-keyword-complete/addon/components",
       "code": {
-        "id": "astnode100000149",
+        "id": "astnode100000151",
         "name": "text",
         "type": "Literal",
         "value": ""
@@ -296,14 +296,14 @@
     "comment": "/**\n   * Target element selector (Should select an input or textarea).\n   * @property target\n   * @type String\n   * @default ''\n   * @example '#message-textarea'\n   * @public\n   */",
     "meta": {
       "range": [
-        2975,
-        2985
+        2978,
+        2988
       ],
       "filename": "keyword-complete.js",
       "lineno": 110,
       "path": "ember-keyword-complete/addon/components",
       "code": {
-        "id": "astnode100000151",
+        "id": "astnode100000153",
         "name": "target",
         "type": "Literal",
         "value": ""
@@ -335,14 +335,14 @@
     "comment": "/**\n   * Computed property that represents the current keyword suggestion query.\n   * @property filterQuery\n   * @type String\n   * @default ''\n   * @example '@embe'\n   * @private\n   */",
     "meta": {
       "range": [
-        3531,
-        3938
+        3561,
+        3968
       ],
       "filename": "keyword-complete.js",
-      "lineno": 138,
+      "lineno": 139,
       "path": "ember-keyword-complete/addon/components",
       "code": {
-        "id": "astnode100000180",
+        "id": "astnode100000184",
         "name": "filterQuery",
         "type": "CallExpression",
         "value": ""
@@ -371,17 +371,100 @@
     "memberof": "module:ember-keyword-complete/components/keyword-complete"
   },
   {
+    "comment": "/**\n   * Component name for the currently active datasource\n   * @type String\n   * @property keyItemComponent\n   * @public\n   */",
+    "meta": {
+      "range": [
+        4104,
+        4321
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 161,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000252",
+        "name": "keyItemComponent",
+        "type": "CallExpression",
+        "value": ""
+      }
+    },
+    "description": "Component name for the currently active datasource",
+    "type": {
+      "names": [
+        "String"
+      ]
+    },
+    "properties": [
+      {
+        "name": "keyItemComponent"
+      }
+    ],
+    "access": "public",
+    "name": "keyItemComponent",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~keyItemComponent",
+    "kind": "member",
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
+  },
+  {
+    "comment": "/**\n   * Function to trigger suggestion loading by passing a filter query and the current source key\n   * @param {String} filterQuery\n   * @param {String} currentSourceKey\n   * @example\n   * component.setSuggestions('ember', '@');\n     */",
+    "meta": {
+      "range": [
+        4567,
+        5043
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 173,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000279",
+        "name": "setSuggestions",
+        "type": "FunctionExpression"
+      },
+      "vars": {
+        "loadSuggestionsId": "module:ember-keyword-complete/components/keyword-complete~setSuggestions~loadSuggestionsId",
+        "": null
+      }
+    },
+    "description": "Function to trigger suggestion loading by passing a filter query and the current source key",
+    "params": [
+      {
+        "type": {
+          "names": [
+            "String"
+          ]
+        },
+        "name": "filterQuery"
+      },
+      {
+        "type": {
+          "names": [
+            "String"
+          ]
+        },
+        "name": "currentSourceKey"
+      }
+    ],
+    "examples": [
+      "component.setSuggestions('ember', '@');"
+    ],
+    "name": "setSuggestions",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~setSuggestions",
+    "kind": "function",
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
+  },
+  {
     "comment": "/**\n   * Computed property that represents whether the completion suggestion tooltip should be visible\n   * @property tooltipVisible\n   * @type boolean\n   * @default false\n   * @private\n   */",
     "meta": {
       "range": [
-        5222,
-        5459
+        5624,
+        5861
       ],
       "filename": "keyword-complete.js",
-      "lineno": 187,
+      "lineno": 201,
       "path": "ember-keyword-complete/addon/components",
       "code": {
-        "id": "astnode100000380",
+        "id": "astnode100000384",
         "name": "tooltipVisible",
         "type": "CallExpression",
         "value": ""
@@ -410,14 +493,14 @@
     "comment": "/**\n   * Function to close the completion suggestion tooltip\n   * @property tooltipVisible\n   * @type Function\n   * @public\n   * @returns {void}\n   */",
     "meta": {
       "range": [
-        5617,
-        5847
+        6019,
+        6249
       ],
       "filename": "keyword-complete.js",
-      "lineno": 201,
+      "lineno": 215,
       "path": "ember-keyword-complete/addon/components",
       "code": {
-        "id": "astnode100000410",
+        "id": "astnode100000414",
         "name": "closeTooltip",
         "type": "FunctionExpression"
       }
@@ -445,6 +528,193 @@
     ],
     "name": "closeTooltip",
     "longname": "module:ember-keyword-complete/components/keyword-complete~closeTooltip",
+    "kind": "function",
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
+  },
+  {
+    "comment": "/**\n   * Function that is called to select a datasource item\n   * @param {*} selectedItem\n   * @public\n     */",
+    "meta": {
+      "range": [
+        6367,
+        7070
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 228,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000461",
+        "name": "applySelection",
+        "type": "FunctionExpression"
+      },
+      "vars": {
+        "start": "module:ember-keyword-complete/components/keyword-complete~start",
+        "caretPosition": "module:ember-keyword-complete/components/keyword-complete~applySelection~caretPosition",
+        "text": "module:ember-keyword-complete/components/keyword-complete~applySelection~text",
+        "filterQuery": "module:ember-keyword-complete/components/keyword-complete~applySelection~filterQuery",
+        "selectionString": "module:ember-keyword-complete/components/keyword-complete~applySelection~selectionString",
+        "before": "module:ember-keyword-complete/components/keyword-complete~applySelection~before",
+        "after": "module:ember-keyword-complete/components/keyword-complete~applySelection~after",
+        "": null
+      }
+    },
+    "description": "Function that is called to select a datasource item",
+    "params": [
+      {
+        "type": {
+          "names": [
+            "*"
+          ]
+        },
+        "name": "selectedItem"
+      }
+    ],
+    "access": "public",
+    "name": "applySelection",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~applySelection",
+    "kind": "function",
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
+  },
+  {
+    "comment": "/**\n   * Function called on document 'click'. Used to close the completion tooltip.\n   * @param {jQuery.Event} ev\n   * @public\n     */",
+    "meta": {
+      "range": [
+        7486,
+        7713
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 267,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000628",
+        "name": "documentClickHandler",
+        "type": "FunctionExpression"
+      },
+      "vars": {
+        "$tooltip": "module:ember-keyword-complete/components/keyword-complete~documentClickHandler~$tooltip"
+      }
+    },
+    "description": "Function called on document 'click'. Used to close the completion tooltip.",
+    "params": [
+      {
+        "type": {
+          "names": [
+            "jQuery.Event"
+          ]
+        },
+        "name": "ev"
+      }
+    ],
+    "access": "public",
+    "name": "documentClickHandler",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~documentClickHandler",
+    "kind": "function",
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
+  },
+  {
+    "comment": "/**\n   * Function called on target 'keypress'. Used to detect the start of a keyword completion.\n   * @param {jQuery.Event} ev\n   * @returns {void}\n   * @public\n     */",
+    "meta": {
+      "range": [
+        7889,
+        8879
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 283,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000673",
+        "name": "keyPressHandler",
+        "type": "FunctionExpression"
+      },
+      "vars": {
+        "sources": "module:ember-keyword-complete/components/keyword-complete~keyPressHandler~sources",
+        "input": "module:ember-keyword-complete/components/keyword-complete~keyPressHandler~input",
+        "$input": "module:ember-keyword-complete/components/keyword-complete~keyPressHandler~$input",
+        "caretPosition": "module:ember-keyword-complete/components/keyword-complete~keyPressHandler~caretPosition",
+        "text": "module:ember-keyword-complete/components/keyword-complete~keyPressHandler~text",
+        "prevChar": "module:ember-keyword-complete/components/keyword-complete~keyPressHandler~prevChar",
+        "currentChar": "module:ember-keyword-complete/components/keyword-complete~keyPressHandler~currentChar"
+      }
+    },
+    "description": "Function called on target 'keypress'. Used to detect the start of a keyword completion.",
+    "params": [
+      {
+        "type": {
+          "names": [
+            "jQuery.Event"
+          ]
+        },
+        "name": "ev"
+      }
+    ],
+    "returns": [
+      {
+        "type": {
+          "names": [
+            "void"
+          ]
+        }
+      }
+    ],
+    "access": "public",
+    "name": "keyPressHandler",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~keyPressHandler",
+    "kind": "function",
+    "scope": "inner",
+    "memberof": "module:ember-keyword-complete/components/keyword-complete"
+  },
+  {
+    "comment": "/**\n   * Function called on target 'keydown'. Used to handle \"special\" key presses.\n   * @param {jQuery.Event} ev\n   * @returns {boolean|undefined}\n   * @public\n     */",
+    "meta": {
+      "range": [
+        9055,
+        11766
+      ],
+      "filename": "keyword-complete.js",
+      "lineno": 318,
+      "path": "ember-keyword-complete/addon/components",
+      "code": {
+        "id": "astnode100000826",
+        "name": "keyDownHandler",
+        "type": "FunctionExpression"
+      },
+      "vars": {
+        "input": "module:ember-keyword-complete/components/keyword-complete~keyDownHandler~input",
+        "sources": "module:ember-keyword-complete/components/keyword-complete~keyDownHandler~sources",
+        "visible": "module:ember-keyword-complete/components/keyword-complete~keyDownHandler~visible",
+        "position": "module:ember-keyword-complete/components/keyword-complete~position",
+        "prevChar": "module:ember-keyword-complete/components/keyword-complete~keyDownHandler~prevChar",
+        "prevCharOk": "module:ember-keyword-complete/components/keyword-complete~prevCharOk",
+        "selectionIdx": "module:ember-keyword-complete/components/keyword-complete~keyDownHandler~selectionIdx",
+        "caretPosition": "module:ember-keyword-complete/components/keyword-complete~keyDownHandler~caretPosition"
+      }
+    },
+    "description": "Function called on target 'keydown'. Used to handle \"special\" key presses.",
+    "params": [
+      {
+        "type": {
+          "names": [
+            "jQuery.Event"
+          ]
+        },
+        "name": "ev"
+      }
+    ],
+    "returns": [
+      {
+        "type": {
+          "names": [
+            "boolean",
+            "undefined"
+          ]
+        }
+      }
+    ],
+    "access": "public",
+    "name": "keyDownHandler",
+    "longname": "module:ember-keyword-complete/components/keyword-complete~keyDownHandler",
     "kind": "function",
     "scope": "inner",
     "memberof": "module:ember-keyword-complete/components/keyword-complete"
