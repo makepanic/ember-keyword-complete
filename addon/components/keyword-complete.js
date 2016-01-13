@@ -320,7 +320,7 @@ export default Ember.Component.extend({
       sources = this.get('dataSources');
 
     let visible = this.get('tooltipVisible');
-    if (ev.ctrlKey || ev.altKey || ev.metaKey || ev.which === KEYS.SHIFT) {
+    if (ev.ctrlKey || ev.altKey || ev.metaKey || ev.shiftKey || ev.which === KEYS.SHIFT) {
       return;
     }
 
