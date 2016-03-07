@@ -1,4 +1,4 @@
-<h2 class="docs-title">Two datasource (emojis + users)</h2>
+<h2 class="docs-title">multiple datasource (emojis, users, commands)</h2>
 
 {{#code-block-tabs as |tabs|}}
   {{#tabs.tab name='result'}}
@@ -19,9 +19,9 @@
                 </div>
                 <div class="complete-tooltip-body">
                     <ul>
-                      {{#each complete.suggestions as |suggestion idx|}}
+                      {{#each complete.suggestions as |suggestion idx|~}}
                         {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
-                      {{/each}}
+                      {{~/each}}
                     </ul>
                 </div>
             {{~/complete.tooltip}}
@@ -48,9 +48,9 @@
             &lt;/div>
             &lt;div class="complete-tooltip-body">
                 &lt;ul>
-                  \{{#each complete.suggestions as |suggestion idx|}}
+                  \{{#each complete.suggestions as |suggestion idx|~}}
                     \{{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
-                  \{{/each}}
+                  \{{~/each}}
                 &lt;/ul>
             &lt;/div>
         \{{~/complete.tooltip}}
@@ -87,6 +87,18 @@ export default Ember.Controller.extend({
           }, Math.random() * 100);
         });
       }
+    },
+    '/': {
+      minQueryLength: 0,
+      component: 'command-item',
+      itemClassName: 'complete-command-item',
+      extractDataString(item) {
+        return `/${item.name} `;
+      },
+      loadSuggestions(query) {
+        return RSVP.resolve(ENV.APP.COMMANDS
+          .filter(c => c.name.toLowerCase().indexOf(query.toLowerCase().substring(1)) === 0));
+      }
     }
   }
 });{{/code-block}}
@@ -96,18 +108,26 @@ export default Ember.Controller.extend({
 <hr>
 
 <div class="row">
-    <div class="six columns">
+    <div class="four columns">
         <h4>emoji alias <code>:</code></h4>
 
       {{#keyword-list keywords=emojis as |emoji|}}
           <code>{{emoji.val}}</code>
       {{/keyword-list}}
     </div>
-    <div class="six columns">
+    <div class="four columns">
         <h4>user alias <code>@</code></h4>
 
       {{#keyword-list keywords=users as |user|}}
           <code>{{user.nick}}</code>
+      {{/keyword-list}}
+    </div>
+
+    <div class="four columns">
+        <h4>command alias <code>/</code></h4>
+
+      {{#keyword-list keywords=commands as |cmd|}}
+          <code>{{cmd.name}}</code>
       {{/keyword-list}}
     </div>
 </div>

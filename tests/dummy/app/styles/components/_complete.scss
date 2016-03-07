@@ -24,6 +24,8 @@ $image-size: 20px;
 
 .complete-tooltip-body {
   padding: 10px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .complete-item {
@@ -45,4 +47,49 @@ $image-size: 20px;
 .complete-item-active {
   background: $blue-1;
   color: $white-0;
+}
+
+.complete-command-item{
+  display: block;
+  vertical-align: top;
+  font-family: DOS, Monaco, Menlo, Consolas, "Courier New", monospace;
+
+  font-size: 14px;
+  background-color: #000084;
+  color: #BBB;
+
+  & > div{
+    padding: 5px;
+    margin: 5px;
+    border: 2px solid transparent;
+  }
+
+  &.complete-item-active{
+    color: #fff;
+    & > div{
+      border-color: #BBB;
+      box-shadow: 3px 3px 0 4px #000;
+    }
+  }
+
+  &:hover{
+    color: #BBB;
+    & > div{
+      background-color: #000;
+    }
+  }
+
+  .command-name{
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  .command-syntax{
+    color: #fefe54;
+  }
+  .command-description{
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

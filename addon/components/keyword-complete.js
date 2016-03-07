@@ -55,6 +55,7 @@ export default Ember.Component.extend({
 
   /**
    * Minimum query length before suggestion loading is triggered.
+   * This values can be overwritten on a per data-source basis, by setting `minQueryLength` for a data source.
    * @property minQueryLength
    * @type Number
    * @default 2
@@ -163,13 +164,18 @@ export default Ember.Component.extend({
     return currentSourceKey ? this.get('dataSources')[currentSourceKey].component : undefined;
   }),
 
+  keyItemClassName: computed('currentSourceKey', function () {
+    let currentSourceKey = this.get('currentSourceKey');
+    return currentSourceKey ? this.get('dataSources')[currentSourceKey].itemClassName : undefined;
+  }),
+
   /**
    * Function to trigger suggestion loading by passing a filter query and the current source key
    * @param {String} filterQuery
    * @param {String} currentSourceKey
    * @example
    * component.setSuggestions('ember', '@');
-     */
+   */
   setSuggestions(filterQuery, currentSourceKey) {
     let loadSuggestionsId = this.get('_loadSuggestionsId') + 1;
     this.set('_loadSuggestionsId', loadSuggestionsId);
@@ -185,7 +191,7 @@ export default Ember.Component.extend({
     let filterQuery = this.get('filterQuery'),
       currentSourceKey = this.get('currentSourceKey');
 
-    if (currentSourceKey && filterQuery.length > this.get('minQueryLength')) {
+    if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
       // TODO: lodash debounce trailing + leading
       this.setSuggestions(filterQuery, currentSourceKey);
     }
@@ -198,11 +204,23 @@ export default Ember.Component.extend({
    * @default false
    * @private
    */
-  tooltipVisible: computed('filterQuery.length', 'minQueryLength', 'suggestions.length', function () {
+  tooltipVisible: computed('filterQuery.length', 'currentMinQueryLength', 'suggestions.length', function () {
     return !!(
-      this.get('filterQuery.length') > this.get('minQueryLength') &&
+      this.get('filterQuery.length') > this.get('currentMinQueryLength') &&
       this.get('suggestions.length') > 0
     );
+  }),
+
+  currentMinQueryLength: computed('minQueryLength', 'currentSourceKey', function () {
+    const currentSourceKey = this.get('currentSourceKey');
+    let minQueryLength = this.get('minQueryLength');
+
+    if (currentSourceKey && this.get('dataSources')[currentSourceKey]) {
+      const ds = this.get('dataSources')[currentSourceKey];
+      minQueryLength = ds.hasOwnProperty('minQueryLength') ? ds.minQueryLength : minQueryLength;
+    }
+
+    return minQueryLength;
   }),
 
   /**
@@ -224,7 +242,7 @@ export default Ember.Component.extend({
    * Function that is called to select a datasource item
    * @param {*} selectedItem
    * @public
-     */
+   */
   applySelection(selectedItem){
     let start = this.get('caretStart'),
       caretPosition = this.get('caretPosition'),
@@ -263,7 +281,7 @@ export default Ember.Component.extend({
    * Function called on document 'click'. Used to close the completion tooltip.
    * @param {jQuery.Event} ev
    * @public
-     */
+   */
   documentClickHandler(ev) {
     let $tooltip = this.get('$tooltip');
     if (
@@ -279,7 +297,7 @@ export default Ember.Component.extend({
    * @param {jQuery.Event} ev
    * @returns {void}
    * @public
-     */
+   */
   keyPressHandler(ev) {
     let sources = this.get('dataSources'),
       input = this.get('input'),
@@ -314,7 +332,7 @@ export default Ember.Component.extend({
    * @param {jQuery.Event} ev
    * @returns {boolean|undefined}
    * @public
-     */
+   */
   keyDownHandler(ev) {
     let input = this.get('input'),
       sources = this.get('dataSources');

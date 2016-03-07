@@ -1,6 +1,6 @@
 {{yield (hash
   tooltip=(component 'keyword-complete-tooltip' id=(concat elementId '-tooltip') position=tooltipCoords)
-  item=(component 'keyword-complete-tooltip-item' keyItemComponent=keyItemComponent selected-item=(action 'clickedSelection'))
+  item=(component 'keyword-complete-tooltip-item' classNames=keyItemClassName keyItemComponent=keyItemComponent selected-item=(action 'clickedSelection'))
   suggestions=suggestions
   selectionIdx=selectionIdx
   filterQuery=filterQuery

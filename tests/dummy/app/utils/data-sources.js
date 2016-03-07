@@ -27,3 +27,16 @@ export let users = {
     });
   }
 };
+
+export let commands = {
+  minQueryLength: 0,
+  component: 'command-item',
+  itemClassName: 'complete-command-item',
+  extractDataString(item) {
+    return `/${item.name} `;
+  },
+  loadSuggestions(query) {
+    return RSVP.resolve(ENV.APP.COMMANDS
+      .filter(c => c.name.toLowerCase().indexOf(query.toLowerCase().substring(1)) === 0));
+  }
+};
