@@ -349,7 +349,7 @@ export default Ember.Component.extend({
 
     if (this.get('caretPosition') < this.get('caretStart')) {
       this.closeTooltip();
-      return false;
+      return;
     }
 
     if (this.get('caretStart') === null && ev.which === KEYS.BACKSPACE) {
