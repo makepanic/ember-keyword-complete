@@ -18,7 +18,7 @@ Installing this addon is as easy as:
 ember install ember-keyword-complete
 ```
 
-In order to break control whether the component breaks on spaces simply set the `breakOnSpaces` property.
+In order to break control whether the component breaks on spaces simply set the `breakOnSpaces` property to false.
 Great for Facebook tags.
 
 ```
