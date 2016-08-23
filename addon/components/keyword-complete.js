@@ -262,12 +262,9 @@ export default Ember.Component.extend({
         this.set('text', `${before}${selectionString}${after}`);
         this.closeTooltip();
 
-        run.scheduleOnce('afterRender', this, () = > {
-            setCaretPosition(this.get('input'), start + selectionString.length
-    )
-        ;
-    })
-        ;
+        run.scheduleOnce('afterRender', this, () => {
+            setCaretPosition(this.get('input'), start + selectionString.length);
+        });
     },
 
     willDestroyElement: function () {
