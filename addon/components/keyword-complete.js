@@ -192,6 +192,13 @@ export default Ember.Component.extend({
     },
 
     debouceThis: observer('filterQuery', 'currentSourceKey', function () {
+        if (this.get('shouldShowTypingState')) {
+            this.set('showTypingState', true);
+            Ember.run.later(this, ()=> {
+                this.set('showTypingState', false);
+            }, this.get('typingStateTimeout'));
+        }
+
         const timeout = this.get('loadDebounceInterval');
         Ember.run.debounce(this, this.updateSuggestions, timeout || 300);
     }),
@@ -318,6 +325,7 @@ export default Ember.Component.extend({
 
         if (sources.hasOwnProperty(currentChar)) {
             // start of keyword autocomplete
+
             if (!prevChar || REGEX_WHITESPACE.test(prevChar)) {
                 this.set('currentSourceKey', currentChar);
                 this.set('caretStart', caretPosition);
@@ -386,13 +394,6 @@ export default Ember.Component.extend({
 
                 prevCharOk = this.get('keywordRegex').test(prevChar);
             }
-        }
-
-        if (visible && this.get('shouldShowTypingState')) {
-            this.set('showTypingState', true);
-            Ember.run.later(this, ()=> {
-                this.set('showTypingState', false);
-            }, this.get('typingStateTimeout'));
         }
 
         let selectionIdx = this.get('selectionIdx');
