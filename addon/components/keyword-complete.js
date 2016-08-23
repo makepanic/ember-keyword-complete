@@ -180,15 +180,12 @@ export default Ember.Component.extend({
     setSuggestions(filterQuery, currentSourceKey) {
         let loadSuggestionsId = this.get('_loadSuggestionsId') + 1;
         this.set('_loadSuggestionsId', loadSuggestionsId);
-        this.get('dataSources')[currentSourceKey].loadSuggestions(filterQuery).then(data = > {
-            if (this.get('_loadSuggestionsId') === loadSuggestionsId
-    )
-        {
-            this.set('suggestions', data);
-            this.set('selectionIdx', 0);
-        } // else ignore because newer load promise already started
-    })
-        ;
+        this.get('dataSources')[currentSourceKey].loadSuggestions(filterQuery).then((data) => {
+            if (this.get('_loadSuggestionsId') === loadSuggestionsId) {
+                this.set('suggestions', data);
+                this.set('selectionIdx', 0);
+            } // else ignore because newer load promise already started
+        });
     },
 
     updateSuggestions: observer('filterQuery', 'currentSourceKey', function () {
@@ -443,9 +440,7 @@ export default Ember.Component.extend({
     },
 
     didInsertElement: function () {
-        this._super(...arguments
-        )
-        ;
+        this._super(...arguments);
 
         let target = this.get('target'),
             $tooltip,
@@ -462,21 +457,9 @@ export default Ember.Component.extend({
         this.set('$input', $input);
         this.set('input', input);
 
-        this.set('_tooltipCloseHandler', (...evArgs) =
-        >
-        this.documentClickHandler(...evArgs
-        ))
-        ;
-        this.set('_keyPressHandler', (...evArgs) =
-        >
-        this.keyPressHandler(...evArgs
-        ))
-        ;
-        this.set('_keyDownHandler', (...evArgs) =
-        >
-        this.keyDownHandler(...evArgs
-        ))
-        ;
+        this.set('_tooltipCloseHandler', (...evArgs) => this.documentClickHandler(...evArgs));
+        this.set('_keyPressHandler', (...evArgs) => this.keyPressHandler(...evArgs));
+        this.set('_keyDownHandler', (...evArgs) =>this.keyDownHandler(...evArgs));
 
         $input
             .on('keypress', this.get('_keyPressHandler'))
