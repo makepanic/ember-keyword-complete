@@ -192,15 +192,20 @@ export default Ember.Component.extend({
     },
 
     debouceThis: observer('filterQuery', 'currentSourceKey', function () {
-        if (this.get('shouldShowTypingState')) {
-            this.set('showTypingState', true);
-            Ember.run.later(this, ()=> {
-                this.set('showTypingState', false);
-            }, this.get('typingStateTimeout'));
+        const filterQuery = this.get('filterQuery');
+        const timeout = this.get('loadDebounceInterval');
+
+        if (filterQuery) {
+            if (this.get('shouldShowTypingState')) {
+                this.set('showTypingState', true);
+                Ember.run.later(this, ()=> {
+                    this.set('showTypingState', false);
+                }, this.get('typingStateTimeout'));
+            }
         }
 
-        const timeout = this.get('loadDebounceInterval');
         Ember.run.debounce(this, this.updateSuggestions, timeout || 300);
+
     }),
 
     updateSuggestions: function () {
