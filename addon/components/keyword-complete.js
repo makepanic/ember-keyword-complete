@@ -191,16 +191,19 @@ export default Ember.Component.extend({
         });
     },
 
-    updateSuggestions: observer('filterQuery', 'currentSourceKey', function () {
+    debouceThis: observer('filterQuery', 'currentSourceKey', function () {
+        const timeout = this.get('loadDebounceInterval');
+        Ember.run.debounce(this, this.updateSuggestions, timeout || 300);
+    }),
+
+    updateSuggestions: function () {
         let filterQuery = this.get('filterQuery'),
             currentSourceKey = this.get('currentSourceKey');
 
         if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
-            Ember.run.debounce(this, function () {
-                this.setSuggestions(filterQuery, currentSourceKey);
-            }, this.get('loadDebounceInterval'));
+            this.setSuggestions(filterQuery, currentSourceKey);
         }
-    }),
+    },
 
     /**
      * Computed property that represents whether the completion suggestion tooltip should be visible
