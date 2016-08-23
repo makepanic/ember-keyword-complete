@@ -268,9 +268,7 @@ export default Ember.Component.extend({
     },
 
     willDestroyElement: function () {
-        this._super(...arguments
-        )
-        ;
+        this._super(...arguments);
 
         this.get('$input')
             .off('keypress', this.get('_keyPressHandler'))
