@@ -193,8 +193,9 @@ export default Ember.Component.extend({
             currentSourceKey = this.get('currentSourceKey');
 
         if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
-            // TODO: lodash debounce trailing + leading
-            this.setSuggestions(filterQuery, currentSourceKey);
+            Ember.run.debounce(this, ()=> {
+                this.setSuggestions(filterQuery, currentSourceKey);
+            }, this.get('loadDebounceInterval'));
         }
     }),
 
