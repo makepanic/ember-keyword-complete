@@ -61,7 +61,7 @@ export default Ember.Component.extend({
      * @default 2
      * @public
      */
-    minQueryLength: 2,
+    minQueryLength: 0,
 
     /**
      * Object that represents all available data sources for the keyword completion.
@@ -129,6 +129,9 @@ export default Ember.Component.extend({
     _keyDownHandler: K,
     _tooltipCloseHandler: K,
     _loadSuggestionsId: -1,
+    shouldShowTypingState: false,
+    showTypingState: false,
+    typingStateTimeout: 2000,
 
     /**
      * Computed property that represents the current keyword suggestion query.
@@ -338,6 +341,7 @@ export default Ember.Component.extend({
      * @public
      */
     keyDownHandler(ev) {
+
         let input = this.get('input'),
             sources = this.get('dataSources');
 
@@ -379,6 +383,13 @@ export default Ember.Component.extend({
 
                 prevCharOk = this.get('keywordRegex').test(prevChar);
             }
+        }
+
+        if (visible && this.get('shouldShowTypingState')) {
+            this.set('showTypingState', true);
+            Ember.run.later(this, ()=> {
+                this.set('showTypingState', false);
+            }, this.get('typingStateTimeout'));
         }
 
         let selectionIdx = this.get('selectionIdx');

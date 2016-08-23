@@ -1,82 +1,86 @@
 <h2 class="docs-title">One datasource (emojis)</h2>
 
 {{#code-block-tabs as |tabs|}}
-  {{#tabs.tab name='result'}}
-    {{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
-        <div class="relative">
-          {{#complete.tooltip isVisible=complete.visible ~}}
-              <div class="complete-tooltip-header">
-                  <div class="row">
-                      <div class="six columns">
-                          query: "<strong>{{complete.filterQuery}}</strong>"
-                      </div>
-                      <div class="six columns text-right">
-                          <strong>↑</strong> <strong>↓</strong> to navigate
-                          <strong>↵</strong> to select
-                          <strong>esc</strong> to dismiss
-                      </div>
-                  </div>
-              </div>
-              <div class="complete-tooltip-body">
-                  <ul>
-                    {{#each complete.suggestions as |suggestion idx|}}
-                      {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
-                    {{/each}}
-                  </ul>
-              </div>
-          {{~/complete.tooltip}}
-        </div>
-        {{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=text}}
-    {{/keyword-complete}}
-  {{/tabs.tab}}
-  {{#tabs.tab name='template'}}
-{{#code-block language='handlebars'}}
-  \{{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
-      &lt;div class="relative">
-        \{{#complete.tooltip isVisible=complete.visible ~}}
+    {{#tabs.tab name='result'}}
+        {{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
+            <div class="relative">
+                {{#complete.tooltip isVisible=complete.visible ~}}
+                    <div class="complete-tooltip-header">
+                        <div class="row">
+                            <div class="six columns">
+                                query: "<strong>{{complete.filterQuery}}</strong>"
+                            </div>
+                            <div class="six columns text-right">
+                                <strong>↑</strong> <strong>↓</strong> to navigate
+                                <strong>↵</strong> to select
+                                <strong>esc</strong> to dismiss
+                            </div>
+                        </div>
+                    </div>
+                    <div class="complete-tooltip-body">
+                        <ul>
+                            {{#if complete.showTypingState}}
+                            {{!-- add typing state here--}}
+                            {{else}}
+                                {{#each complete.suggestions as |suggestion idx|}}
+                                    {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
+                                {{/each}}
+                            {{/if}}
+                        </ul>
+                    </div>
+                {{~/complete.tooltip}}
+            </div>
+            {{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=text}}
+        {{/keyword-complete}}
+    {{/tabs.tab}}
+    {{#tabs.tab name='template'}}
+        {{#code-block language='handlebars'}}
+            \{{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
+            &lt;div class="relative">
+            \{{#complete.tooltip isVisible=complete.visible ~}}
             &lt;div class="complete-tooltip-header">
-                &lt;div class="row">
-                    &lt;div class="six columns">
-                        query: "&lt;strong>\{{complete.filterQuery}}&lt;/strong>"
-                    &lt;/div>
-                    &lt;div class="six columns text-right">
-                        &lt;strong>↑&lt;/strong> &lt;strong>↓&lt;/strong> to navigate
-                        &lt;strong>↵&lt;/strong> to select
-                        &lt;strong>esc&lt;/strong> to dismiss
-                    &lt;/div>
-                &lt;/div>
+            &lt;div class="row">
+            &lt;div class="six columns">
+            query: "&lt;strong>\{{complete.filterQuery}}&lt;/strong>"
+            &lt;/div>
+            &lt;div class="six columns text-right">
+            &lt;strong>↑&lt;/strong> &lt;strong>↓&lt;/strong> to navigate
+            &lt;strong>↵&lt;/strong> to select
+            &lt;strong>esc&lt;/strong> to dismiss
+            &lt;/div>
+            &lt;/div>
             &lt;/div>
             &lt;div class="complete-tooltip-body">
-                &lt;ul>
-                  \{{#each complete.suggestions as |suggestion idx|}}
-                    \{{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
-                  \{{/each}}
-                &lt;/ul>
+            &lt;ul>
+            \{{#each complete.suggestions as |suggestion idx|}}
+            \{{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
+            \{{/each}}
+            &lt;/ul>
             &lt;/div>
-        \{{~/complete.tooltip}}
-      &lt;/div>
-      \{{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=text}}
-  \{{/keyword-complete}}
-{{/code-block}}
-  {{/tabs.tab}}
+            \{{~/complete.tooltip}}
+            &lt;/div>
+            \{{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=text}}
+            \{{/keyword-complete}}
+        {{/code-block}}
+    {{/tabs.tab}}
 
-  {{#tabs.tab name='javascript'}}
-    {{#code-block language='javascript'}}
-export default Ember.Controller.extend({
-  text: 'Lorem ipsum dolor sit amet, … sequi similique totam vel.',
-  ds: {
-    ':': {
-      component: 'emoji-item',
-      extractDataString(item) {
-        return `:${item.val}:`;
-      },
-      loadSuggestions(query) {
-        return RSVP.resolve(ENV.APP.EMOJIS.filter(item => `:${item.val}:`.indexOf(query) !== -1));
-      }
-    }
-  }
-});{{/code-block}}
-  {{/tabs.tab}}
+    {{#tabs.tab name='javascript'}}
+        {{#code-block language='javascript'}}
+            export default Ember.Controller.extend({
+            text: 'Lorem ipsum dolor sit amet, … sequi similique totam vel.',
+            ds: {
+            ':': {
+            component: 'emoji-item',
+            extractDataString(item) {
+            return `:${item.val}:`;
+            },
+            loadSuggestions(query) {
+            return RSVP.resolve(ENV.APP.EMOJIS.filter(item => `:${item.val}:`.indexOf(query) !== -1));
+            }
+            }
+            }
+            });{{/code-block}}
+    {{/tabs.tab}}
 {{/code-block-tabs}}
 
 <hr>
