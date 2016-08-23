@@ -196,7 +196,7 @@ export default Ember.Component.extend({
             currentSourceKey = this.get('currentSourceKey');
 
         if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
-            Ember.run.debounce(this, ()=> {
+            Ember.run.debounce(this, function () {
                 this.setSuggestions(filterQuery, currentSourceKey);
             }, this.get('loadDebounceInterval'));
         }
