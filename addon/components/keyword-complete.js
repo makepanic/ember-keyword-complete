@@ -132,6 +132,7 @@ export default Ember.Component.extend({
     shouldShowTypingState: false,
     showTypingState: false,
     typingStateTimeout: 2000,
+    errors: [],
 
     /**
      * Computed property that represents the current keyword suggestion query.
@@ -189,6 +190,8 @@ export default Ember.Component.extend({
                 this.set('suggestions', data);
                 this.set('selectionIdx', 0);
             } // else ignore because newer load promise already started
+        }).catch((errors) => {
+            this.set('errors', Array.isArray(errors) ? errors : [errors]);
         }).finally(()=> {
             this.set('isLoadingSuggestions', false);
         });
@@ -340,6 +343,7 @@ export default Ember.Component.extend({
                 this.set('caretEnd', null);
                 this.get('suggestions').splice(0, this.get('suggestions.length'));
                 this.set('selectionIdx', 0);
+                this.set('errors', []);
             }
         } else if (this.get('caretStart') !== null) {
             if (breakOnSpaces && REGEX_WHITESPACE.test(currentChar)) {
