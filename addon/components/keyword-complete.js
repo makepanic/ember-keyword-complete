@@ -144,7 +144,7 @@ export default Ember.Component.extend({
      */
     filterQuery: computed('text', 'caretStart', 'caretEnd', function () {
         let query = '',
-            text = this.get('text'),
+            text = this.get('text') || '',
             start = this.get('caretStart'),
             end = this.get('caretEnd');
 
