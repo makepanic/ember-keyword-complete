@@ -204,6 +204,7 @@ export default Ember.Component.extend({
         if (filterQuery) {
             if (this.get('shouldShowTypingState')) {
                 this.set('showTypingState', true);
+                this.set('isLoadingSuggestions', false);
                 Ember.run.later(this, ()=> {
                     this.set('showTypingState', false);
                 }, this.get('typingStateTimeout'));
@@ -211,7 +212,6 @@ export default Ember.Component.extend({
         }
 
         Ember.run.debounce(this, this.updateSuggestions, timeout || 300);
-
     }),
 
     updateSuggestions: function () {
