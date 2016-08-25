@@ -219,6 +219,7 @@ export default Ember.Component.extend({
             currentSourceKey = this.get('currentSourceKey');
 
         if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
+            this.get('suggestions').splice(0, this.get('suggestions.length'));
             this.setSuggestions(filterQuery, currentSourceKey);
         }
     },
