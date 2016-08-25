@@ -495,6 +495,9 @@ export default Ember.Component.extend({
     actions: {
         clickedSelection(value){
             this.applySelection(value);
+        },
+        hoverSelection(index){
+            this.set('selectionIdx', index);
         }
     }
 });
