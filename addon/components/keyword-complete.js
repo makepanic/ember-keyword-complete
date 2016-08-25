@@ -206,6 +206,7 @@ export default Ember.Component.extend({
         const timeout = this.get('loadDebounceInterval');
 
         if (filterQuery) {
+            this.get('suggestions').splice(0, this.get('suggestions.length'));
             if (this.get('shouldShowTypingState')) {
                 this.set('showTypingState', true);
                 this.set('isLoadingSuggestions', false);
@@ -223,7 +224,6 @@ export default Ember.Component.extend({
             currentSourceKey = this.get('currentSourceKey');
 
         if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
-            this.get('suggestions').splice(0, this.get('suggestions.length'));
             this.setSuggestions(filterQuery, currentSourceKey);
         }
     },
