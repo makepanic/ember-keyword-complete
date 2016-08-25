@@ -193,7 +193,11 @@ export default Ember.Component.extend({
         }).catch((errors) => {
             this.set('errors', Array.isArray(errors) ? errors : [errors]);
         }).finally(()=> {
-            this.set('isLoadingSuggestions', false);
+            if (this.get('_loadSuggestionsId') === loadSuggestionsId) {
+                Ember.run.next(this, function () {
+                    this.set('isLoadingSuggestions', false);
+                });
+            }
         });
     },
 
