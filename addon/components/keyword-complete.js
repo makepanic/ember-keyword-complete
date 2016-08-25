@@ -213,7 +213,6 @@ export default Ember.Component.extend({
                 this.set('isLoadingSuggestions', false);
                 Ember.run.later(this, ()=> {
                     this.set('showTypingState', false);
-                    this.set('isLoadingSuggestions', true);
                 }, this.get('typingStateTimeout'));
             }
         }
