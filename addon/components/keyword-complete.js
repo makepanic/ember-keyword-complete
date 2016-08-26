@@ -238,7 +238,7 @@ export default Ember.Component.extend({
      */
     tooltipVisible: computed('filterQuery.length', 'currentMinQueryLength', 'suggestions.length', 'showTypingState', 'isLoadingSuggestions', function () {
         return !!(
-            (this.get('filterQuery.length') > this.get('currentMinQueryLength') && this.get('suggestions.length') > 0) || this.get('showTypingState') || this.get('isLoadingSuggestions')
+            (this.get('filterQuery.length') > this.get('currentMinQueryLength') && this.get('suggestions.length') > 0) || this.get('showTypingState') || this.get('isLoadingSuggestions') || this.get('errors')
         );
     }),
 
