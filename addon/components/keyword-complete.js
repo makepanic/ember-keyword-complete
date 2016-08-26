@@ -194,9 +194,7 @@ export default Ember.Component.extend({
             this.set('errors', Array.isArray(errors) ? errors : [errors]);
         }).finally(()=> {
             if (this.get('_loadSuggestionsId') === loadSuggestionsId) {
-                Ember.run.next(this, function () {
-                    this.set('isLoadingSuggestions', false);
-                });
+                this.set('isLoadingSuggestions', false);
             }
         });
     },
@@ -208,13 +206,12 @@ export default Ember.Component.extend({
         this.set('errors', []);
 
         if (filterQuery && currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
-            this.get('suggestions').splice(0, this.get('suggestions.length'));
             if (this.get('shouldShowTypingState')) {
                 this.set('showTypingState', true);
+                this.get('suggestions').splice(0, this.get('suggestions.length'));
                 this.set('isLoadingSuggestions', false);
-                Ember.run.later(this, ()=> {
-                    this.set('showTypingState', false);
-                }, this.get('typingStateTimeout'));
+            } else {
+                this.get('suggestions').splice(0, this.get('suggestions.length'));
             }
         }
 
@@ -226,6 +223,7 @@ export default Ember.Component.extend({
             currentSourceKey = this.get('currentSourceKey');
 
         if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
+            this.set('showTypingState', false);
             this.setSuggestions(filterQuery, currentSourceKey);
         }
     },
