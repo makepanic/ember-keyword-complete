@@ -222,8 +222,8 @@ export default Ember.Component.extend({
         let filterQuery = this.get('filterQuery'),
             currentSourceKey = this.get('currentSourceKey');
 
+        this.set('showTypingState', false);
         if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
-            this.set('showTypingState', false);
             this.setSuggestions(filterQuery, currentSourceKey);
         }
     },
