@@ -133,6 +133,7 @@ export default Ember.Component.extend({
     showTypingState: false,
     typingStateTimeout: 2000,
     errors: [],
+    enabled: true,
 
     /**
      * Computed property that represents the current keyword suggestion query.
@@ -329,6 +330,10 @@ export default Ember.Component.extend({
      * @public
      */
     keyPressHandler(ev) {
+        if (!this.get('enabled')) {
+            return;
+        }
+
         let sources = this.get('dataSources'),
             input = this.get('input'),
             $input = this.get('$input'),
@@ -368,6 +373,9 @@ export default Ember.Component.extend({
      * @public
      */
     keyDownHandler(ev) {
+        if (!this.get('enabled')) {
+            return;
+        }
 
         let input = this.get('input'),
             sources = this.get('dataSources');
