@@ -267,6 +267,7 @@ export default Ember.Component.extend({
         this.set('currentSourceKey', null);
         this.set('caretStart', null);
         this.set('caretEnd', null);
+        this.sendAction('onClose');
     },
 
     /**
@@ -510,6 +511,9 @@ export default Ember.Component.extend({
         },
         hoverSelection(index){
             this.set('selectionIdx', index);
+        },
+        refreshSuggestions(){
+            this.updateSuggestions();
         }
     }
 });
