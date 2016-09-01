@@ -514,6 +514,9 @@ export default Ember.Component.extend({
         },
         refreshSuggestions(){
             this.updateSuggestions();
+        },
+        setCaretPositionAction(position){
+            this.setCaretPosition(this.get('input'), position);
         }
     }
 });
