@@ -487,7 +487,7 @@ export default Ember.Component.extend({
 
         $input = this.$(target);
         input = $input[0];
-        $tooltip = this.$(`#${this.get('elementId')}-tooltip`);
+        $tooltip = this.$(`.${this.get('elementId')}-tooltip`);
 
         this.set('$tooltip', $tooltip);
         this.set('$input', $input);
