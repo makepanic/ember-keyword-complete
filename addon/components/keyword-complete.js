@@ -1,7 +1,13 @@
 import Ember from 'ember';
 import layout from '../templates/components/keyword-complete';
 
-const {observer, computed, run, assert, K, $} = Ember;
+const {
+  observer,
+  computed,
+  run,
+  assert,
+  $
+} = Ember;
 
 const REGEX_WHITESPACE = /[\s\t]/,
   REGEX_KEYWORDS = /[0-9a-zA-Z_\.]/,
@@ -124,9 +130,9 @@ export default Ember.Component.extend({
   keywordRegex: REGEX_KEYWORDS,
   currentSourceKey: null,
 
-  _keyPressHandler: K,
-  _keyDownHandler: K,
-  _tooltipCloseHandler: K,
+  _keyPressHandler() {},
+  _keyDownHandler() {},
+  _tooltipCloseHandler() {},
   _loadSuggestionsId: -1,
 
   /**
