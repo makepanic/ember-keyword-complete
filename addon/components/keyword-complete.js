@@ -9,19 +9,19 @@ const {
   $
 } = Ember;
 
-const REGEX_WHITESPACE = /[\s\t]/,
-  REGEX_KEYWORDS = /[0-9a-zA-Z_\.]/,
-  KEYS = {
-    BACKSPACE: 8,
-    TAB: 9,
-    ENTER: 13,
-    SHIFT: 16,
-    ESC: 27,
-    ARROW_LEFT: 37,
-    ARROW_UP: 38,
-    ARROW_RIGHT: 39,
-    ARROW_DOWN: 40
-  };
+const REGEX_WHITESPACE = /[\s\t]/;
+const REGEX_KEYWORDS = /[0-9a-zA-Z_\.]/;
+const KEYS = {
+  BACKSPACE: 8,
+  TAB: 9,
+  ENTER: 13,
+  SHIFT: 16,
+  ESC: 27,
+  ARROW_LEFT: 37,
+  ARROW_UP: 38,
+  ARROW_RIGHT: 39,
+  ARROW_DOWN: 40
+};
 
 /**
  * Function to set the caret position for a given element.
@@ -147,10 +147,10 @@ export default Ember.Component.extend({
    * @private
    */
   filterQuery: computed('text', 'caretStart', 'caretEnd', function () {
-    let query = '',
-      text = this.get('text'),
-      start = this.get('caretStart'),
-      end = this.get('caretEnd');
+    let query = '';
+    const text = this.get('text');
+    const start = this.get('caretStart');
+    const end = this.get('caretEnd');
 
     if (start !== null) {
       if (end !== null) {
@@ -197,8 +197,8 @@ export default Ember.Component.extend({
   },
 
   updateSuggestions: observer('filterQuery', 'currentSourceKey', function () {
-    let filterQuery = this.get('filterQuery'),
-      currentSourceKey = this.get('currentSourceKey');
+    const filterQuery = this.get('filterQuery');
+    const currentSourceKey = this.get('currentSourceKey');
 
     if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
       // TODO: lodash debounce trailing + leading
@@ -253,19 +253,19 @@ export default Ember.Component.extend({
    * @public
    */
   applySelection(selectedItem){
-    let start = this.get('caretStart'),
-      caretPosition = this.get('caretPosition'),
-      text = this.get('text'),
-      filterQuery = this.get('filterQuery'),
-      selectionString = this.get('dataSources')[this.get('currentSourceKey')]
-        .extractDataString(selectedItem);
+    let start = this.get('caretStart');
+    const caretPosition = this.get('caretPosition');
+    const text = this.get('text');
+    const filterQuery = this.get('filterQuery');
+    const selectionString = this.get('dataSources')[this.get('currentSourceKey')]
+      .extractDataString(selectedItem);
 
     if (start === null) {
       start = caretPosition;
     }
 
-    let before = text.substring(0, start),
-      after = text.substring(start + filterQuery.length);
+    const before = text.substring(0, start);
+    const after = text.substring(start + filterQuery.length);
 
     this.set('text', `${before}${selectionString}${after}`);
     this.closeTooltip();
@@ -343,8 +343,8 @@ export default Ember.Component.extend({
    * @public
    */
   keyDownHandler(ev) {
-    let input = this.get('input'),
-      sources = this.get('dataSources');
+    const input = this.get('input');
+    const sources = this.get('dataSources');
     const keyCode = ev.which || ev.keyCode;
 
     let visible = this.get('tooltipVisible');
@@ -364,9 +364,9 @@ export default Ember.Component.extend({
 
     if (this.get('caretStart') === null && keyCode === KEYS.BACKSPACE) {
       // see if the previous keyword could be an autocomplete keyword
-      let position = getCaretPosition(input) - 1,
-        prevChar = '',
-        prevCharOk = true;
+      let position = getCaretPosition(input) - 1;
+      let prevChar = '';
+      let prevCharOk = true;
 
       this.set('caretPosition', position);
 
@@ -448,10 +448,10 @@ export default Ember.Component.extend({
   didInsertElement: function () {
     this._super(...arguments);
 
-    let target = this.get('target'),
-      $tooltip,
-      $input,
-      input;
+    const target = this.get('target');
+    let $tooltip;
+    let $input;
+    let input;
 
     assert('keyword-complete needs a valid target element', target.length);
 

@@ -3,8 +3,8 @@ import config from 'dummy/config/environment';
 
 export default Ember.Route.extend({
   model({filename}){
-    let module,
-      items = [];
+    let module;
+    const items = [];
 
     config.APP.GROUPED_AST[filename].forEach(item => {
       if (item.kind === 'module') {
