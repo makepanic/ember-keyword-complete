@@ -1,37 +1,48 @@
 ---
 language: node_js
 node_js:
-  - "0.12"
+  - "6"
 
 sudo: false
 
+addons:
+  firefox: 'latest'
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
 cache:
   directories:
-    - node_modules
-
-addons:
-  sauce_connect: true
+    - $HOME/.npm
+    - $HOME/.cache # includes bowers cache
 
 env:
-  - CAP_BROWSER="firefox" CAP_VERSION="42.0" CAP_PLATFORM="Windows 10" CAP_NAME="tests on firefox"
-  - CAP_BROWSER="chrome" CAP_VERSION="46.0" CAP_PLATFORM="Windows 10" CAP_NAME="tests on chrome"
-  - CAP_BROWSER="safari" CAP_VERSION="9.0" CAP_PLATFORM="OS X 10.11" CAP_NAME="tests on safari"
-  - CAP_BROWSER="MicrosoftEdge" CAP_VERSION="20.10240" CAP_PLATFORM="Windows 10" CAP_NAME="tests on msedge"
-  - CAP_BROWSER="internet explorer" CAP_VERSION="11.0" CAP_PLATFORM="Windows 10" CAP_NAME="tests on ie11"
+  # we recommend testing LTS's and latest stable release (bonus points to beta/canary)
+  - EMBER_TRY_SCENARIO=ember-lts-2.4
+  - EMBER_TRY_SCENARIO=ember-lts-2.8
+  - EMBER_TRY_SCENARIO=ember-release
+  - EMBER_TRY_SCENARIO=ember-beta
+  - EMBER_TRY_SCENARIO=ember-canary
+  - EMBER_TRY_SCENARIO=ember-default
 
-#  allow_failures:
-#    - env: EMBER_TRY_SCENARIO=ember-canary
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
-  - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
-  - "npm config set spin false"
-  - "npm install -g npm@^2"
+  - npm config set spin false
+  - npm install -g bower phantomjs-prebuilt
+  - bower --version
+  - phantomjs --version
 
 install:
-  - npm install -g bower
   - npm install
   - bower install
 
 script:
-  - ember test
-  - sh run-webdriver.sh
+  # Usually, it's ok to finish the test scenario without reverting
+  #  to the addon's original dependency state, skipping "cleanup".
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup

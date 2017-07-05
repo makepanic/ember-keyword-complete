@@ -1,21 +1,21 @@
 import Ember from 'ember';
 import layout from '../templates/components/keyword-complete';
 
-const { observer, computed, run, assert, K, $ } = Ember;
+const {observer, computed, run, assert, $} = Ember;
 
-const REGEX_WHITESPACE = /[\s\t]/,
-    REGEX_KEYWORDS = /[0-9a-zA-Z_\.]/,
-    KEYS = {
-        BACKSPACE: 8,
-        TAB: 9,
-        ENTER: 13,
-        SHIFT: 16,
-        ESC: 27,
-        ARROW_LEFT: 37,
-        ARROW_UP: 38,
-        ARROW_RIGHT: 39,
-        ARROW_DOWN: 40
-    };
+const REGEX_WHITESPACE = /[\s\t]/;
+ const REGEX_KEYWORDS = /[0-9a-zA-Z_\.]/;
+ const KEYS = {
+    BACKSPACE: 8,
+    TAB: 9,
+    ENTER: 13,
+    SHIFT: 16,
+    ESC: 27,
+    ARROW_LEFT: 37,
+    ARROW_UP: 38,
+    ARROW_RIGHT: 39,
+    ARROW_DOWN: 40
+  };
 
 /**
  * Function to set the caret position for a given element.
@@ -125,9 +125,12 @@ export default Ember.Component.extend({
     keywordRegex: REGEX_KEYWORDS,
     currentSourceKey: null,
 
-    _keyPressHandler: K,
-    _keyDownHandler: K,
-    _tooltipCloseHandler: K,
+    _keyPressHandler() {
+  },
+    _keyDownHandler() {
+  },
+    _tooltipCloseHandler() {
+  },
     _loadSuggestionsId: -1,
     shouldShowTypingState: false,
     showTypingState: false,
@@ -135,19 +138,19 @@ export default Ember.Component.extend({
     errors: [],
     enabled: true,
 
-    /**
-     * Computed property that represents the current keyword suggestion query.
-     * @property filterQuery
-     * @type String
-     * @default ''
-     * @example '@embe'
-     * @private
-     */
-    filterQuery: computed('text', 'caretStart', 'caretEnd', function () {
-        let query = '',
-            text = this.get('text') || '',
-            start = this.get('caretStart'),
-            end = this.get('caretEnd');
+  /**
+   * Computed property that represents the current keyword suggestion query.
+   * @property filterQuery
+   * @type String
+   * @default ''
+   * @example '@embe'
+   * @private
+   */
+  filterQuery: computed('text', 'caretStart', 'caretEnd', function () {
+    let query = '';
+    const text = this.get('text') || '';
+    const start = this.get('caretStart');
+    const end = this.get('caretEnd');
 
         if (start !== null) {
             if (end !== null) {
@@ -203,7 +206,7 @@ export default Ember.Component.extend({
         });
     },
 
-    debouceThis: observer('filterQuery', 'currentSourceKey', function () {
+  debouceThis: observer('filterQuery', 'currentSourceKey', function () {
         const filterQuery = this.get('filterQuery');
         const timeout = this.get('loadDebounceInterval');
         const currentSourceKey = this.get('currentSourceKey')
@@ -222,9 +225,9 @@ export default Ember.Component.extend({
         Ember.run.debounce(this, this.updateSuggestions, timeout || 300);
     }),
 
-    updateSuggestions: function () {
-        let filterQuery = this.get('filterQuery'),
-            currentSourceKey = this.get('currentSourceKey');
+    updateSuggestions:function () {
+    const filterQuery = this.get('filterQuery');
+     const currentSourceKey = this.get('currentSourceKey');
 
         this.set('showTypingState', false);
         if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
@@ -240,7 +243,7 @@ export default Ember.Component.extend({
      * @private
      */
     tooltipVisible: computed('filterQuery.length', 'currentMinQueryLength', 'suggestions.length', 'showTypingState', 'isLoadingSuggestions', function () {
-        return !!(
+        return (
             (this.get('filterQuery.length') > this.get('currentMinQueryLength') && this.get('suggestions.length') > 0) || this.get('showTypingState') || this.get('isLoadingSuggestions') || this.get('errors.length') > 0
         );
     }),
@@ -273,25 +276,25 @@ export default Ember.Component.extend({
         this.sendAction('onClose');
     },
 
-    /**
-     * Function that is called to select a datasource item
-     * @param {*} selectedItem
-     * @public
-     */
-    applySelection(selectedItem){
-        let start = this.get('caretStart'),
-            caretPosition = this.get('caretPosition'),
-            text = this.get('text'),
-            filterQuery = this.get('filterQuery'),
-            selectionString = this.get('dataSources')[this.get('currentSourceKey')]
-                .extractDataString(selectedItem);
+  /**
+   * Function that is called to select a datasource item
+   * @param {*} selectedItem
+   * @public
+   */
+  applySelection(selectedItem){
+    let start = this.get('caretStart');
+     const caretPosition = this.get('caretPosition');
+     const text = this.get('text');
+     const filterQuery = this.get('filterQuery');
+     const selectionString = this.get('dataSources')[this.get('currentSourceKey')]
+        .extractDataString(selectedItem);
 
         if (start === null) {
             start = caretPosition;
         }
 
-        let before = text.substring(0, start),
-            after = text.substring(start + filterQuery.length);
+    const before = text.substring(0, start);
+     const after = text.substring(start + filterQuery.length);
 
         this.set('text', `${before}${selectionString}${after}`);
         this.closeTooltip();
@@ -327,25 +330,24 @@ export default Ember.Component.extend({
         }
     },
 
-    /**
-     * Function called on target 'keypress'. Used to detect the start of a keyword completion.
-     * @param {jQuery.Event} ev
-     * @returns {void}
-     * @public
-     */
-    keyPressHandler(ev) {
-        if (!this.get('enabled')) {
-            return;
-        }
+  /**
+   * Function called on target 'keypress'. Used to detect the start of a keyword completion.
+   * @param {jQuery.Event} ev
+   * @returns {void}
+   * @public
+   */
+  keyPressHandler(ev) {
+    if (!this.get('enabled')) {
+      return;
+    }
 
-        let sources = this.get('dataSources'),
-            input = this.get('input'),
-            $input = this.get('$input'),
-            caretPosition = getCaretPosition(input),
-            breakOnSpaces = this.get('breakOnSpaces'),
-            text = $input.val(),
-            prevChar = text.charAt(caretPosition - 1),
-            currentChar = String.fromCharCode(ev.which);
+    const sources = this.get('dataSources');
+    const input = this.get('input');
+    const $input = this.get('$input');
+    const caretPosition = getCaretPosition(input);
+    const text = $input.val();
+    const prevChar = text.charAt(caretPosition - 1);
+    const currentChar = String.fromCharCode(ev.which || ev.keyCode);
 
         if (sources.hasOwnProperty(currentChar)) {
             // start of keyword autocomplete
@@ -370,26 +372,27 @@ export default Ember.Component.extend({
         this.set('caretPosition', caretPosition + 1);
     },
 
-    /**
-     * Function called on target 'keydown'. Used to handle "special" key presses.
-     * @param {jQuery.Event} ev
-     * @returns {boolean|undefined}
-     * @public
-     */
-    keyDownHandler(ev) {
-        if (!this.get('enabled')) {
-            return;
-        }
+  /**
+   * Function called on target 'keydown'. Used to handle "special" key presses.
+   * @param {jQuery.Event} ev
+   * @returns {boolean|undefined}
+   * @public
+   */
+  keyDownHandler(ev) {
+    if (!this.get('enabled')) {
+      return;
+    }
 
-        let input = this.get('input'),
-            sources = this.get('dataSources');
+    const input = this.get('input');
+    const sources = this.get('dataSources');
+    const keyCode = ev.which || ev.keyCode;
 
         let visible = this.get('tooltipVisible');
-        if (ev.ctrlKey || ev.altKey || ev.metaKey || ev.shiftKey || ev.which === KEYS.SHIFT) {
+        if (ev.ctrlKey || ev.altKey || ev.metaKey || ev.shiftKey || keyCode === KEYS.SHIFT) {
             return;
         }
 
-        if (ev.which === KEYS.ESC) {
+        if (keyCode === KEYS.ESC) {
             this.closeTooltip();
             return;
         }
@@ -399,11 +402,11 @@ export default Ember.Component.extend({
             return;
         }
 
-        if (this.get('caretStart') === null && ev.which === KEYS.BACKSPACE) {
-            // see if the previous keyword could be an autocomplete keyword
-            let position = getCaretPosition(input) - 1,
-                prevChar = '',
-                prevCharOk = true;
+    if (this.get('caretStart') === null && keyCode === KEYS.BACKSPACE) {
+      // see if the previous keyword could be an autocomplete keyword
+      let position = getCaretPosition(input) - 1;
+       let prevChar = '';
+       let prevCharOk = true;
 
             this.set('caretPosition', position);
 
@@ -424,43 +427,43 @@ export default Ember.Component.extend({
             }
         }
 
-        let selectionIdx = this.get('selectionIdx');
-        switch (ev.which) {
-            case KEYS.ENTER:
-            case KEYS.TAB:
-                if (visible && selectionIdx > -1) {
-                    this.applySelection(this.get('suggestions')[selectionIdx]);
-                } else {
-                    return true;
-                }
-                ev.stopImmediatePropagation();
-                return false;
-            case KEYS.ARROW_UP:
-                if (!visible) {
-                    return;
-                }
-                if (selectionIdx - 1 > -1) {
-                    this.decrementProperty('selectionIdx');
-                } else {
-                    this.set('selectionIdx', this.get('suggestions.length') - 1);
-                }
-                return false;
-            case KEYS.ARROW_DOWN:
-                if (!visible) {
-                    return;
-                }
-                if (selectionIdx + 1 < this.get('suggestions.length')) {
-                    this.incrementProperty('selectionIdx');
-                } else {
-                    // next round
-                    this.set('selectionIdx', 0);
-                }
-                return false;
-            case KEYS.BACKSPACE:
-                let caretPosition = getCaretPosition(input) - 1,
-                    prevChar = input.value[caretPosition - 1];
-                this.set('caretPosition', caretPosition);
-                this.set('selectionIdx', 0);
+    let selectionIdx = this.get('selectionIdx');
+    switch (keyCode) {
+      case KEYS.ENTER:
+      case KEYS.TAB:{
+        if (visible && selectionIdx > -1) {
+          this.applySelection(this.get('suggestions')[selectionIdx]);
+        } else {
+          return true;
+        }
+        ev.stopImmediatePropagation();
+        return false;
+      }case KEYS.ARROW_UP:{
+        if (!visible) {
+          return;
+        }
+        if (selectionIdx - 1 > -1) {
+          this.decrementProperty('selectionIdx');
+        } else {
+          this.set('selectionIdx', this.get('suggestions.length') - 1);
+        }
+        return false;
+      }case KEYS.ARROW_DOWN:{
+        if (!visible) {
+          return;
+        }
+        if (selectionIdx + 1 < this.get('suggestions.length')) {
+          this.incrementProperty('selectionIdx');
+        } else {
+          // next round
+          this.set('selectionIdx', 0);
+        }
+        return false;
+      }case KEYS.BACKSPACE:{
+        const caretPosition = getCaretPosition(input) - 1;
+         const prevChar = input.value[caretPosition - 1];
+        this.set('caretPosition', caretPosition);
+        this.set('selectionIdx', 0);
 
                 if (REGEX_WHITESPACE.test(prevChar)) {
                     this.set('caretStart', null);
@@ -471,20 +474,20 @@ export default Ember.Component.extend({
                     this.set('caretEnd', caretPosition);
                 }
 
-                if (caretPosition === 0) {
-                    this.closeTooltip();
-                }
-                break;
+        if (caretPosition === 0) {
+          this.closeTooltip();
         }
-    },
+        break;
+    }
+  }},
 
     didInsertElement: function () {
         this._super(...arguments);
 
-        let target = this.get('target'),
-            $tooltip,
-            $input,
-            input;
+    const target = this.get('target');
+     let $tooltip;
+     let $input;
+     let input;
 
         assert('keyword-complete needs a valid target element', target.length);
 

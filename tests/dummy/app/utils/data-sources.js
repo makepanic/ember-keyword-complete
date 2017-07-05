@@ -23,7 +23,7 @@ export let users = {
     return new RSVP.Promise(res => {
       Ember.run.later(this, () => {
         res(ENV.APP.USERS.filter(item => item.nick.toLowerCase().startsWith(queryLower)));
-      }, Math.random() * 100);
+      }, 100);
     });
   }
 };
