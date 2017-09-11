@@ -1,12 +1,13 @@
 /* eslint-env node */
+'use strict';
 
 const fs = require('fs');
 const path = require('path');
 
-module.exports = function (environment) {
-  var ENV = {
+module.exports = function(environment) {
+  let ENV = {
     modulePrefix: 'dummy',
-    environment: environment,
+    environment,
     rootURL: '/',
     locationType: 'auto',
     EmberENV: {
@@ -348,6 +349,8 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
+    ENV.locationType = 'hash';
+    ENV.rootURL = '/ember-keyword-complete/';
     ENV.locationType = 'hash';
     ENV.rootURL = '/ember-keyword-complete/';
 

@@ -1,17 +1,29 @@
-{{yield (hash
-  tooltip=(component 'keyword-complete-tooltip' id=(concat elementId '-tooltip') position=tooltipCoords)
-  item=(component 'keyword-complete-tooltip-item' classNames=keyItemClassName keyItemComponent=keyItemComponent selected-item=(action 'clickedSelection'))
-  suggestions=suggestions
-  selectionIdx=selectionIdx
-  filterQuery=filterQuery
-  visible=tooltipVisible
-  keyItemComponent=keyItemComponent
-  showTypingState=showTypingState
-  isLoadingSuggestions=isLoadingSuggestions
-  select=(action 'clickedSelection')
-  hover=(action 'hoverSelection')
-  refresh=(action 'refreshSuggestions')
-  setCaretPosition=setCaretPositionAction
-  onClose=onClose
-  errors=errors
-)}}
+{{yield
+  (hash
+    tooltip=(component 'keyword-complete-tooltip'
+      visible=tooltipVisible
+      id=(concat elementId '-tooltip')
+    )
+    item=(component 'keyword-complete-tooltip-item'
+      classNames=keyItemClassName
+      keyItemComponent=keyItemComponent
+      selectValue=(action 'selectValue')
+    )
+    suggestions=suggestions
+    selectionIdx=selectionIdx
+    filterQuery=filterQuery
+    visible=tooltipVisible
+    keyItemComponent=keyItemComponent
+
+    showTypingState=showTypingState
+    isLoadingSuggestions=isLoadingSuggestions
+    onClose=onClose
+    errors=errors
+
+    moveCaret=(action 'moveCaret')
+    selectValue=(action 'selectValue')
+    preselectValueAt=(action 'preselectValueAt')
+
+    refreshSuggestions=(action 'refreshSuggestions')
+  )
+}}

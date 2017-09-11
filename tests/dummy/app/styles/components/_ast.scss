@@ -28,7 +28,10 @@
 .ast-type{
   font-style: italic;
 }
-.ast-default{
+
+.ast-readonly,
+.ast-default
+{
   font-size: 14px;
 
   span{

@@ -3,7 +3,11 @@
 
   {{#if item.defaultvalue}}
       <div class="ast-default">
-          <span>default:</span> {{#code-inline language='javascript'}}{{item.defaultvalue}}{{/code-inline}}</div>
+          <span>default:</span> {{#code-inline language='javascript'}}{{item.defaultvalue}}{{/code-inline}}
+      </div>
+  {{/if}}
+  {{#if item.readonly}}
+    <div class="ast-readonly"><span>readonly</span></div>
   {{/if}}
 </td>
 <td>

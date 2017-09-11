@@ -17,6 +17,6 @@ export default Ember.Component.extend({
 
   suggestion: undefined,
   click(){
-    this.sendAction('selected-item', this.get('suggestion'));
+    this.get('selectValue')(this.get('suggestion'));
   }
 });

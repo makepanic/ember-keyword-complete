@@ -12,6 +12,7 @@ Router.map(function() {
   this.route('demos', function() {
     this.route('emoji');
     this.route('emoji-and-users');
+    this.route('actions');
   });
 
   this.route('api', function() {

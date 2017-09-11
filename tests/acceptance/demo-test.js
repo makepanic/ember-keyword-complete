@@ -1,10 +1,10 @@
 import {test} from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
-import {waitUntil, focus, find, keyEvent} from 'ember-native-dom-helpers';
+import {waitUntil, focus, find, keyEvent, click} from 'ember-native-dom-helpers';
 import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
 
-const {run} = Ember;
+const {$, run} = Ember;
 
 moduleForAcceptance('Acceptance | demo');
 
@@ -78,7 +78,7 @@ test('completes using single data source', async function (assert) {
     arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.innerText.trim().replace(/\n/g, '')),
     [':smile:', ':smiley:']
   );
-  type(textArea, ' :asds');
+  await type(textArea, ' :asds');
   assert.equal(find('.complete-tooltip').style.display, 'none');
 });
 
@@ -128,4 +128,55 @@ test('completes from multiple data sources by using a keyword identifier (@ vs :
   await typeCode(textArea, CODES.Enter);
   assert.equal(find('.complete-tooltip').style.display, 'none');
   assert.equal(textArea.value, `${text} @Jalon1`);
+});
+
+test('handles moveCaret actions', async function (assert) {
+  await visit('/demos/actions');
+
+  const textArea = find('#complete-textarea');
+
+  await click('#move-to-0');
+  assert.equal(textArea.selectionStart, 0);
+
+  await click('#move-to-5');
+  assert.equal(textArea.selectionStart, 5);
+
+  await click('#move-to-10');
+  assert.equal(textArea.selectionStart, 10);
+});
+
+test('handles preselectValueAt action', async function (assert) {
+  await visit('/demos/actions');
+
+  const textArea = find('#complete-textarea-preselect');
+  await type(textArea, ' :smi');
+
+  await waitUntil(() => find('.complete-tooltip-body ul').children.length > 0);
+
+  const $notActiveLi = $('.complete-tooltip-body ul li:not(.complete-item-active)');
+  $notActiveLi.trigger('mouseenter');
+
+  assert.ok($notActiveLi.hasClass('complete-item-active'));
+});
+
+test('handles refreshSuggestions action', async function (assert) {
+  await visit('/demos/actions');
+
+  const $button = $('#button--refreshSuggestions');
+  const textArea = find('#complete-textarea-refresh');
+  await type(textArea, ' #');
+
+  await waitUntil(() => find('.complete-tooltip:not(.complete-tooltip--invisible) .complete-tooltip-body ul').children.length > 0);
+
+  const initialLis = arrayFromList(find('.complete-tooltip:not(.complete-tooltip--invisible) .complete-tooltip-body ul').children)
+    .map(li => li.innerText.trim().replace(/\n/g, ''));
+
+  $button.trigger('mouseenter');
+
+  await wait();
+
+  const currentLis = arrayFromList(find('.complete-tooltip:not(.complete-tooltip--invisible) .complete-tooltip-body ul').children)
+    .map(li => li.innerText.trim().replace(/\n/g, ''));
+
+  assert.notEqual(initialLis.join('|'), currentLis.join('|'));
 });

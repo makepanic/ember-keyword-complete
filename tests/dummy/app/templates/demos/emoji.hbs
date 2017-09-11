@@ -2,7 +2,7 @@
 
 {{#code-block-tabs as |tabs|}}
     {{#tabs.tab name='result'}}
-        {{#keyword-complete dataSources=ds shouldShowTypingState=true text=text target='#complete-textarea' as |complete|}}
+        {{#keyword-complete dataSources=ds minQueryLength=2 shouldShowTypingState=true text=text target='#complete-textarea' as |complete|}}
             <div class="relative">
                 {{#complete.tooltip isVisible=complete.visible ~}}
                     <div class="complete-tooltip-header">
@@ -18,16 +18,16 @@
                         </div>
                     </div>
                     <div class="complete-tooltip-body">
+                      {{#if complete.showTypingState}}
+                      {{!-- add typing state here--}}
+                          typing
+                      {{else}}
                         <ul>
-                            {{#if complete.showTypingState}}
-                            {{!-- add typing state here--}}
-                                typing
-                            {{else}}
-                                {{#each complete.suggestions as |suggestion idx|}}
-                                    {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
-                                {{/each}}
-                            {{/if}}
+                          {{#each complete.suggestions as |suggestion idx|}}
+                              {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
+                          {{/each}}
                         </ul>
+                      {{/if}}
                     </div>
                 {{~/complete.tooltip}}
             </div>
@@ -52,11 +52,16 @@
                 &lt;/div>
             &lt;/div>
             &lt;div class="complete-tooltip-body">
+              \{{#if complete.showTypingState}}
+                \{{!-- add typing state here--}}
+                typing
+              \{{else}}
                 &lt;ul>
                   \{{#each complete.suggestions as |suggestion idx|}}
                     \{{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
                   \{{/each}}
                 &lt;/ul>
+              \{{/if}}
             &lt;/div>
         \{{~/complete.tooltip}}
       &lt;/div>

@@ -8,8 +8,6 @@
 
 [ember-keyword-complete demo + docs](http://makepanic.github.io/ember-keyword-complete/#/)
 
-__Note:__ this project is currently wip so the api can (and probably will) change.
-
 ## Usage
 
 Installing this addon is as easy as:
