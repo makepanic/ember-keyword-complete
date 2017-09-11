@@ -1,39 +1,44 @@
 <h2 class="docs-title">One datasource (emojis)</h2>
 
 {{#code-block-tabs as |tabs|}}
-  {{#tabs.tab name='result'}}
-    {{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
-        <div class="relative">
-          {{#complete.tooltip isVisible=complete.visible ~}}
-              <div class="complete-tooltip-header">
-                  <div class="row">
-                      <div class="six columns">
-                          query: "<strong>{{complete.filterQuery}}</strong>"
-                      </div>
-                      <div class="six columns text-right">
-                          <strong>↑</strong> <strong>↓</strong> to navigate
-                          <strong>↵</strong> to select
-                          <strong>esc</strong> to dismiss
-                      </div>
-                  </div>
-              </div>
-              <div class="complete-tooltip-body">
-                  <ul>
-                    {{#each complete.suggestions as |suggestion idx|}}
-                      {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
-                    {{/each}}
-                  </ul>
-              </div>
-          {{~/complete.tooltip}}
-        </div>
-        {{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=text}}
-    {{/keyword-complete}}
-  {{/tabs.tab}}
-  {{#tabs.tab name='template'}}
-{{#code-block language='handlebars'}}
-  \{{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
-      &lt;div class="relative">
-        \{{#complete.tooltip isVisible=complete.visible ~}}
+    {{#tabs.tab name='result'}}
+        {{#keyword-complete dataSources=ds shouldShowTypingState=true text=text target='#complete-textarea' as |complete|}}
+            <div class="relative">
+                {{#complete.tooltip isVisible=complete.visible ~}}
+                    <div class="complete-tooltip-header">
+                        <div class="row">
+                            <div class="six columns">
+                                query: "<strong>{{complete.filterQuery}}</strong>"
+                            </div>
+                            <div class="six columns text-right">
+                                <strong>↑</strong> <strong>↓</strong> to navigate
+                                <strong>↵</strong> to select
+                                <strong>esc</strong> to dismiss
+                            </div>
+                        </div>
+                    </div>
+                    <div class="complete-tooltip-body">
+                        <ul>
+                            {{#if complete.showTypingState}}
+                            {{!-- add typing state here--}}
+                                typing
+                            {{else}}
+                                {{#each complete.suggestions as |suggestion idx|}}
+                                    {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
+                                {{/each}}
+                            {{/if}}
+                        </ul>
+                    </div>
+                {{~/complete.tooltip}}
+            </div>
+            {{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=text}}
+        {{/keyword-complete}}
+    {{/tabs.tab}}
+    {{#tabs.tab name='template'}}
+        {{#code-block language='handlebars'}}
+            \{{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
+            &lt;div class="relative">
+            \{{#complete.tooltip isVisible=complete.visible ~}}
             &lt;div class="complete-tooltip-header">
                 &lt;div class="row">
                     &lt;div class="six columns">

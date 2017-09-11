@@ -1,13 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/keyword-complete';
 
-const {
-  observer,
-  computed,
-  run,
-  assert,
-  $
-} = Ember;
+const {observer, computed, run, assert, $} = Ember;
 
 const REGEX_WHITESPACE = /[\s\t]/;
 const REGEX_KEYWORDS = /[0-9a-zA-Z_\.]/;
@@ -67,7 +61,7 @@ export default Ember.Component.extend({
    * @default 2
    * @public
    */
-  minQueryLength: 2,
+  minQueryLength: 0,
 
   /**
    * Object that represents all available data sources for the keyword completion.
@@ -125,6 +119,7 @@ export default Ember.Component.extend({
   caretStart: null,
   caretEnd: null,
   selectionIdx: -1,
+  breakOnSpaces: true,
 
   suggestions: [],
   keywordRegex: REGEX_KEYWORDS,
@@ -137,6 +132,11 @@ export default Ember.Component.extend({
   _tooltipCloseHandler() {
   },
   _loadSuggestionsId: -1,
+  shouldShowTypingState: false,
+  showTypingState: false,
+  typingStateTimeout: 2000,
+  errors: [],
+  enabled: true,
 
   /**
    * Computed property that represents the current keyword suggestion query.
@@ -148,7 +148,7 @@ export default Ember.Component.extend({
    */
   filterQuery: computed('text', 'caretStart', 'caretEnd', function () {
     let query = '';
-    const text = this.get('text');
+    const text = this.get('text') || '';
     const start = this.get('caretStart');
     const end = this.get('caretEnd');
 
@@ -188,23 +188,52 @@ export default Ember.Component.extend({
   setSuggestions(filterQuery, currentSourceKey) {
     let loadSuggestionsId = this.get('_loadSuggestionsId') + 1;
     this.set('_loadSuggestionsId', loadSuggestionsId);
-    this.get('dataSources')[currentSourceKey].loadSuggestions(filterQuery).then(data => {
+    this.set('isLoadingSuggestions', true);
+    this.get('dataSources')[currentSourceKey].loadSuggestions(filterQuery).then((data) => {
       if (this.get('_loadSuggestionsId') === loadSuggestionsId) {
+        this.set('errors', []);
         this.set('suggestions', data);
         this.set('selectionIdx', 0);
       } // else ignore because newer load promise already started
+    }).catch((errors) => {
+      if (this.get('_loadSuggestionsId') === loadSuggestionsId) {
+        this.set('errors', Array.isArray(errors) ? errors : [errors]);
+      }
+    }).finally(() => {
+      if (this.get('_loadSuggestionsId') === loadSuggestionsId) {
+        this.set('isLoadingSuggestions', false);
+      }
     });
   },
 
-  updateSuggestions: observer('filterQuery', 'currentSourceKey', function () {
+  debounceThis: observer('filterQuery', 'currentSourceKey', function () {
+    const filterQuery = this.get('filterQuery');
+    const timeout = this.get('loadDebounceInterval');
+    const currentSourceKey = this.get('currentSourceKey')
+    this.set('errors', []);
+
+    if (filterQuery && currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
+      if (this.get('shouldShowTypingState')) {
+        this.set('showTypingState', true);
+        this.get('suggestions').splice(0, this.get('suggestions.length'));
+        this.set('isLoadingSuggestions', false);
+      } else {
+        this.get('suggestions').splice(0, this.get('suggestions.length'));
+      }
+    }
+
+    Ember.run.debounce(this, this.updateSuggestions, timeout || 300);
+  }),
+
+  updateSuggestions: function () {
     const filterQuery = this.get('filterQuery');
     const currentSourceKey = this.get('currentSourceKey');
 
+    this.set('showTypingState', false);
     if (currentSourceKey && filterQuery.length > this.get('currentMinQueryLength')) {
-      // TODO: lodash debounce trailing + leading
       this.setSuggestions(filterQuery, currentSourceKey);
     }
-  }),
+  },
 
   /**
    * Computed property that represents whether the completion suggestion tooltip should be visible
@@ -213,10 +242,9 @@ export default Ember.Component.extend({
    * @default false
    * @private
    */
-  tooltipVisible: computed('filterQuery.length', 'currentMinQueryLength', 'suggestions.length', function () {
+  tooltipVisible: computed('filterQuery.length', 'currentMinQueryLength', 'suggestions.length', 'showTypingState', 'isLoadingSuggestions', function () {
     return (
-      this.get('filterQuery.length') > this.get('currentMinQueryLength') &&
-      this.get('suggestions.length') > 0
+      (this.get('filterQuery.length') > this.get('currentMinQueryLength') && this.get('suggestions.length') > 0) || this.get('showTypingState') || this.get('isLoadingSuggestions') || this.get('errors.length') > 0
     );
   }),
 
@@ -245,6 +273,7 @@ export default Ember.Component.extend({
     this.set('currentSourceKey', null);
     this.set('caretStart', null);
     this.set('caretEnd', null);
+    this.sendAction('onClose');
   },
 
   /**
@@ -308,6 +337,10 @@ export default Ember.Component.extend({
    * @public
    */
   keyPressHandler(ev) {
+    if (!this.get('enabled')) {
+      return;
+    }
+
     const sources = this.get('dataSources');
     const input = this.get('input');
     const $input = this.get('$input');
@@ -315,37 +348,44 @@ export default Ember.Component.extend({
     const text = $input.val();
     const prevChar = text.charAt(caretPosition - 1);
     const currentChar = String.fromCharCode(ev.which || ev.keyCode);
+    const breakOnSpaces = this.get('breakOnSpaces');
 
     if (sources.hasOwnProperty(currentChar)) {
       // start of keyword autocomplete
+
       if (!prevChar || REGEX_WHITESPACE.test(prevChar)) {
         this.set('currentSourceKey', currentChar);
         this.set('caretStart', caretPosition);
         this.set('caretEnd', null);
         this.get('suggestions').splice(0, this.get('suggestions.length'));
         this.set('selectionIdx', 0);
+        this.set('errors', []);
       }
     } else if (this.get('caretStart') !== null) {
-      if (REGEX_WHITESPACE.test(currentChar)) {
+      if (breakOnSpaces && REGEX_WHITESPACE.test(currentChar)) {
         // ended because of whitespace
         this.closeTooltip();
-      } else {
+      }
+      else {
         this.set('caretEnd', null);
       }
     }
     this.set('caretPosition', caretPosition + 1);
   },
 
-  /**
-   * Function called on target 'keydown'. Used to handle "special" key presses.
-   * @param {jQuery.Event} ev
-   * @returns {boolean|undefined}
-   * @public
-   */
-  keyDownHandler(ev) {
+    /**
+     * Function called on target 'keydown'. Used to handle "special" key presses.
+     * @param {jQuery.Event} ev
+     * @returns {boolean|undefined}
+     * @public
+     */
+    keyDownHandler(ev) {
+        if (!this.get('enabled')) {
+      return;
+    }
+
     const input = this.get('input');
-    const sources = this.get('dataSources');
-    const keyCode = ev.which || ev.keyCode;
+           const sources = this.get('dataSources');const keyCode = ev.which || ev.keyCode;
 
     let visible = this.get('tooltipVisible');
     if (ev.ctrlKey || ev.altKey || ev.metaKey || ev.shiftKey || keyCode === KEYS.SHIFT) {
@@ -387,46 +427,48 @@ export default Ember.Component.extend({
       }
     }
 
-    let selectionIdx = this.get('selectionIdx');
-    switch (keyCode) {
-      case KEYS.ENTER:
-      case KEYS.TAB: {
-        if (visible && selectionIdx > -1) {
-          this.applySelection(this.get('suggestions')[selectionIdx]);
-        } else {
-          return true;
-        }
-        ev.stopImmediatePropagation();
-        return false;
-      }
-      case KEYS.ARROW_UP: {
-        if (!visible) {
-          return;
-        }
-        if (selectionIdx - 1 > -1) {
-          this.decrementProperty('selectionIdx');
-        } else {
-          this.set('selectionIdx', this.get('suggestions.length') - 1);
-        }
-        return false;
-      }
-      case KEYS.ARROW_DOWN: {
-        if (!visible) {
-          return;
-        }
-        if (selectionIdx + 1 < this.get('suggestions.length')) {
-          this.incrementProperty('selectionIdx');
-        } else {
-          // next round
-          this.set('selectionIdx', 0);
-        }
-        return false;
-      }
-      case KEYS.BACKSPACE: {
-        const caretPosition = getCaretPosition(input) - 1;
-        const prevChar = input.value[caretPosition - 1];
-        this.set('caretPosition', caretPosition);
-        this.set('selectionIdx', 0);
+        if (visible && this.get('shouldShowTypingState')) {
+            this.set('showTypingState', true);
+            Ember.run.later(this, ()=> {
+                this.set('showTypingState', false);
+            }, this.get('typingStateTimeout'));
+        }let selectionIdx = this.get('selectionIdx');
+        switch (keyCode) {
+            case KEYS.ENTER:
+            case KEYS.TAB:{
+                if (visible && selectionIdx > -1) {
+                    this.applySelection(this.get('suggestions')[selectionIdx]);
+                } else {
+                    return true;
+                }
+                ev.stopImmediatePropagation();
+                return false;
+      }      case KEYS.ARROW_UP:{
+                if (!visible) {
+                    return;
+                }
+                if (selectionIdx - 1 > -1) {
+                    this.decrementProperty('selectionIdx');
+                } else {
+                    this.set('selectionIdx', this.get('suggestions.length') - 1);
+                }
+                return false;
+      }      case KEYS.ARROW_DOWN:{
+                if (!visible) {
+                    return;
+                }
+                if (selectionIdx + 1 < this.get('suggestions.length')) {
+                    this.incrementProperty('selectionIdx');
+                } else {
+                    // next round
+                    this.set('selectionIdx', 0);
+                }
+                return false;
+      }      case KEYS.BACKSPACE:{
+                const caretPosition = getCaretPosition(input) - 1;
+                   const prevChar = input.value[caretPosition - 1];
+                this.set('caretPosition', caretPosition);
+                this.set('selectionIdx', 0);
 
         if (REGEX_WHITESPACE.test(prevChar)) {
           this.set('caretStart', null);
@@ -478,6 +520,15 @@ export default Ember.Component.extend({
   actions: {
     clickedSelection(value){
       this.applySelection(value);
+    },
+    hoverSelection(index){
+      this.set('selectionIdx', index);
+    },
+    refreshSuggestions(){
+      this.updateSuggestions();
+    },
+    setCaretPositionAction(position){
+      this.setCaretPosition(this.get('input'), position);
     }
   }
 });

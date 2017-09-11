@@ -18,6 +18,14 @@ Installing this addon is as easy as:
 ember install ember-keyword-complete
 ```
 
+In order to break control whether the component breaks on spaces simply set the `breakOnSpaces` property to false.
+Great for Facebook tags.
+
+```
+{{#keyword-complete dataSources=ds breakOnSpaces=false}}
+```
+
+
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
