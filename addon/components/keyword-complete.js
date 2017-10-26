@@ -454,6 +454,19 @@ export default Ember.Component.extend({
   },
 
   /**
+   * starts the typing state if enabled
+   */
+  runShowTypingState() {
+    // TODO: figure out if this has to be run on up/down
+    if (this.get('shouldShowTypingState')) {
+      this.set('showTypingState', true);
+      run.later(this, () => {
+        this.set('showTypingState', false);
+      }, this.get('typingStateTimeout'));
+    }
+  },
+
+  /**
    * Function called on target 'keydown'. Used to handle "special" key presses.
    * @param {jQuery.Event} ev
    * @returns {boolean|undefined}
@@ -506,14 +519,6 @@ export default Ember.Component.extend({
 
         prevCharOk = this.get('keywordRegex').test(prevChar);
       }
-    }
-
-    // TODO: figure out if this has to be run on up/down
-    if (visible && this.get('shouldShowTypingState')) {
-      this.set('showTypingState', true);
-      run.later(this, () => {
-        this.set('showTypingState', false);
-      }, this.get('typingStateTimeout'));
     }
 
     let selectionIdx = this.get('selectionIdx');
@@ -571,6 +576,10 @@ export default Ember.Component.extend({
         }
         break;
       }
+      default:
+        if (visible) {
+          this.runShowTypingState()
+        }
     }
   },
 
