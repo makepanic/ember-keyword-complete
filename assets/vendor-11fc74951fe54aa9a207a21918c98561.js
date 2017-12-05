@@ -3911,21 +3911,22 @@ null===i&&(i=r)
 var s=f.substring(0,i),c=f.substring(i+a.length)
 this.set("text",""+s+u+c),this.closeTooltip(),o.scheduleOnce("afterRender",this,function(){n(t.get("input"),i+u.length)})},documentClickHandler:function(e){var t=this.get("$tooltip")
 this.get("tooltipVisible")&&!t.is(e.target)&&0===t.has(e.target).length&&this.closeTooltip()},keyPressHandler:function(e){if(this.get("enabled")){var t=this.get("dataSources"),n=this.get("input"),r=this.get("$input"),f=i(n),o=r.val(),a=o.charAt(f-1),u=String.fromCharCode(e.which||e.keyCode),c=this.get("breakOnSpaces")
-t.hasOwnProperty(u)?a&&!s.test(a)||(this.set("currentSourceKey",u),this.set("caretStart",f),this.set("caretEnd",null),this.get("suggestions").splice(0,this.get("suggestions.length")),this.set("selectionIdx",0),this.set("errors",[])):null!==this.get("caretStart")&&(c&&s.test(u)?this.closeTooltip():this.set("caretEnd",null)),this.set("caretPosition",f+1)}},keyDownHandler:function(e){var t=this
-if(this.get("enabled")){var n=this.get("input"),r=this.get("dataSources"),f=e.which||e.keyCode,a=this.get("tooltipVisible")
-if(!(e.ctrlKey||e.altKey||e.metaKey||e.shiftKey||f===l.SHIFT)){if(f===l.ESC)return void this.closeTooltip()
+t.hasOwnProperty(u)?a&&!s.test(a)||(this.set("currentSourceKey",u),this.set("caretStart",f),this.set("caretEnd",null),this.get("suggestions").splice(0,this.get("suggestions.length")),this.set("selectionIdx",0),this.set("errors",[])):null!==this.get("caretStart")&&(c&&s.test(u)?this.closeTooltip():this.set("caretEnd",null)),this.set("caretPosition",f+1)}},runShowTypingState:function(){var e=this
+this.get("shouldShowTypingState")&&(this.set("showTypingState",!0),o.later(this,function(){e.set("showTypingState",!1)},this.get("typingStateTimeout")))},keyDownHandler:function(e){if(this.get("enabled")){var t=this.get("input"),n=this.get("dataSources"),r=e.which||e.keyCode,f=this.get("tooltipVisible")
+if(!(e.ctrlKey||e.altKey||e.metaKey||e.shiftKey||r===l.SHIFT)){if(r===l.ESC)return void this.closeTooltip()
 if(this.get("caretPosition")<this.get("caretStart"))return void this.closeTooltip()
-if(null===this.get("caretStart")&&f===l.BACKSPACE){var u=i(n)-1,c="",d=!0
-for(this.set("caretPosition",u);d&&u>=0;){if(u-=1,c=n.value[u],r.hasOwnProperty(c)&&(this.set("currentSourceKey",c),!(c=n.value[u-1])||s.test(c))){this.set("caretStart",u)
-break}d=this.get("keywordRegex").test(c)}}a&&this.get("shouldShowTypingState")&&(this.set("showTypingState",!0),o.later(this,function(){t.set("showTypingState",!1)},this.get("typingStateTimeout")))
-var p=this.get("selectionIdx")
-switch(f){case l.ENTER:case l.TAB:return!(a&&p>-1)||(this.applySelection(this.get("suggestions")[p]),e.stopImmediatePropagation(),!1)
-case l.ARROW_UP:if(!a)return
-return p-1>-1?this.decrementProperty("selectionIdx"):this.set("selectionIdx",this.get("suggestions.length")-1),!1
-case l.ARROW_DOWN:if(!a)return
-return p+1<this.get("suggestions.length")?this.incrementProperty("selectionIdx"):this.set("selectionIdx",0),!1
-case l.BACKSPACE:var h=i(n)-1,m=n.value[h-1]
-this.set("caretPosition",h),this.set("selectionIdx",0),s.test(m)&&(this.set("caretStart",null),this.set("caretEnd",null)),null!==this.get("caretStart")&&this.set("caretEnd",h),0===h&&this.closeTooltip()}}}},didInsertElement:function(){var e=this
+if(null===this.get("caretStart")&&r===l.BACKSPACE){var o=i(t)-1,a="",u=!0
+for(this.set("caretPosition",o);u&&o>=0;){if(o-=1,a=t.value[o],n.hasOwnProperty(a)&&(this.set("currentSourceKey",a),!(a=t.value[o-1])||s.test(a))){this.set("caretStart",o)
+break}u=this.get("keywordRegex").test(a)}}var c=this.get("selectionIdx")
+switch(r){case l.ENTER:case l.TAB:return!(f&&c>-1)||(this.applySelection(this.get("suggestions")[c]),e.stopImmediatePropagation(),!1)
+case l.ARROW_UP:if(!f)return
+return c-1>-1?this.decrementProperty("selectionIdx"):this.set("selectionIdx",this.get("suggestions.length")-1),!1
+case l.ARROW_DOWN:if(!f)return
+return c+1<this.get("suggestions.length")?this.incrementProperty("selectionIdx"):this.set("selectionIdx",0),!1
+case l.BACKSPACE:var d=i(t)-1,p=t.value[d-1]
+this.set("caretPosition",d),this.set("selectionIdx",0),s.test(p)&&(this.set("caretStart",null),this.set("caretEnd",null)),null!==this.get("caretStart")&&this.set("caretEnd",d),0===d&&this.closeTooltip()
+break
+default:f&&this.runShowTypingState()}}}},didInsertElement:function(){var e=this
 this._super.apply(this,arguments)
 var t=this.get("target"),n=void 0,i=void 0,r=void 0
 a("keyword-complete needs a valid target element",t.length),i=this.$(t),r=i[0],n=this.$("#"+this.get("elementId")+"-tooltip"),this.set("$tooltip",n),this.set("$input",i),this.set("input",r),this.set("_tooltipCloseHandler",function(){return e.documentClickHandler.apply(e,arguments)}),this.set("_keyPressHandler",function(){return e.keyPressHandler.apply(e,arguments)}),this.set("_keyDownHandler",function(){return e.keyDownHandler.apply(e,arguments)}),i.on("keypress",this.get("_keyPressHandler")).on("keydown",this.get("_keyDownHandler")),u(document).on("click",this.get("_tooltipCloseHandler"))},willDestroyElement:function(){this._super.apply(this,arguments),this.get("$input").off("keypress",this.get("_keyPressHandler")).off("keydown",this.get("_keyDownHandler")),u(document).off("click",this.get("_tooltipCloseHandler"))},actions:{selectValue:function(e){return this.applySelection(e)},preselectValueAt:function(e){this.set("selectionIdx",e)},refreshSuggestions:function(){return this.updateSuggestions()},moveCaret:function(e){n(this.get("input"),e)}}})}),define("ember-keyword-complete/templates/components/keyword-complete-tooltip-item",["exports"],function(e){"use strict"
