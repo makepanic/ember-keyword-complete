@@ -3,5 +3,6 @@
   "dependencies": {
     "prism": "^1.6.0",
     "emojione": "^2.2.7"
-  }
+  },
+  "version": "1.0.1"
 }

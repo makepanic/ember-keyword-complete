@@ -1,6 +1,6 @@
 {
   "name": "ember-keyword-complete",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "easy way to add keyword autocompletion to existing input/textarea elements in ember",
   "keywords": [
     "ember-addon",
