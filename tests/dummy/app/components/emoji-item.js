@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import layout from '../templates/components/emoji-item';
 
-export default Ember.Component.extend({
-  layout: layout
+export default Component.extend({
+  layout
 });

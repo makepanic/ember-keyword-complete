@@ -1,12 +1,10 @@
-import {test} from 'qunit';
-import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
+import {module, test} from 'qunit';
+import {visit} from '@ember/test-helpers';
+import {setupApplicationTest} from 'ember-qunit';
 import {waitUntil, focus, find, keyEvent, click} from 'ember-native-dom-helpers';
-import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
-
-const {$, run} = Ember;
-
-moduleForAcceptance('Acceptance | demo');
+import {run} from '@ember/runloop';
+import $ from 'jquery';
 
 const CODES = {
   BackSpace: 8,
@@ -48,135 +46,142 @@ function typeBackSpace(element) {
   return (window.wait || wait)();
 }
 
-test('completes using single data source', async function (assert) {
-  await visit('/demos/emoji');
-  const textArea = find('#complete-textarea');
-  await type(textArea, ':smil');
-  assert.equal(find('.complete-tooltip-body ul').childElementCount, 0);
+module('Acceptance | demo', function (hooks) {
+  setupApplicationTest(hooks);
 
-  await type(textArea, ' :smil');
-  assert.deepEqual(
-    arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.innerText.trim().replace(/\n/g, '')),
-    [':smile:', ':smiley:']
-  );
-  await type(textArea, 'ey');
-  assert.deepEqual(
-    arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.innerText.trim().replace(/\n/g, '')),
-    [':smiley:']
-  );
-  await typeBackSpace(textArea);
-  assert.deepEqual(
-    arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.innerText.trim().replace(/\n/g, '')),
-    [':smile:', ':smiley:']
-  );
-  await type(textArea, ' ');
-  assert.equal(find('.complete-tooltip').style.display, 'none');
-  await type(textArea, ' :s');
-  assert.equal(find('.complete-tooltip').style.display, 'none');
-  await type(textArea, 'm');
-  assert.deepEqual(
-    arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.innerText.trim().replace(/\n/g, '')),
-    [':smile:', ':smiley:']
-  );
-  await type(textArea, ' :asds');
-  assert.equal(find('.complete-tooltip').style.display, 'none');
-});
+  test('completes using single data source', async function (assert) {
+    await visit('/demos/emoji');
+    const textArea = find('#complete-textarea');
+    await type(textArea, ':smil');
+    assert.equal(find('.complete-tooltip-body ul').childElementCount, 0);
 
-test('completes from multiple data sources by using a keyword identifier (@ vs :)', async function (assert) {
-  await visit('/demos/emoji-and-users');
+    await type(textArea, ' :smil');
+    assert.deepEqual(
+      arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.innerText.trim().replace(/\n/g, '')),
+      [':smile:', ':smiley:']
+    );
+    await type(textArea, 'ey');
+    assert.deepEqual(
+      arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.innerText.trim().replace(/\n/g, '')),
+      [':smiley:']
+    );
+    await typeBackSpace(textArea);
+    assert.deepEqual(
+      arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.innerText.trim().replace(/\n/g, '')),
+      [':smile:', ':smiley:']
+    );
+    await type(textArea, ' ');
+    assert.equal(find('.complete-tooltip').style.display, 'none');
+    await type(textArea, ' :s');
+    assert.equal(find('.complete-tooltip').style.display, 'none');
+    await type(textArea, 'm');
+    assert.deepEqual(
+      arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.innerText.trim().replace(/\n/g, '')),
+      [':smile:', ':smiley:']
+    );
+    await type(textArea, ' :asds');
+    assert.equal(find('.complete-tooltip').style.display, 'none');
+  });
 
-  const textArea = find('#complete-textarea');
-  const text = textArea.value;
-  await type(textArea, ' @ja');
+  test('completes from multiple data sources by using a keyword identifier (@ vs :)', async function (assert) {
+    await visit('/demos/emoji-and-users');
 
-  await waitUntil(() => find('.complete-tooltip-body ul').children.length === 2);
+    const textArea = find('#complete-textarea');
+    const text = textArea.value;
+    await type(textArea, ' @ja');
 
-  assert.deepEqual(
-    arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.querySelector('strong').innerText.trim().replace(/\n/g, '')),
-    ['@Jaida62', '@Jalon1']
-  );
+    await waitUntil(() => find('.complete-tooltip-body ul').children.length === 2);
 
-  await type(textArea, 'i');
-  await waitUntil(() => find('.complete-tooltip-body ul').children.length === 1);
-  assert.deepEqual(
-    arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.querySelector('strong').innerText.trim().replace(/\n/g, '')),
-    ['@Jaida62']
-  );
-  await type(textArea, ' ');
-  await waitUntil(() => find('.complete-tooltip').style.display === 'none');
-  assert.equal(find('.complete-tooltip').style.display, 'none');
-  await typeBackSpace(textArea);
-  await typeBackSpace(textArea);
-  assert.deepEqual(arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.querySelector('strong').innerText.trim().replace(/\n/g, '')),
-    ['@Jaida62', '@Jalon1']
-  );
-  await typeCode(textArea, CODES.Down);
-  assert.deepEqual(
-    find('.complete-tooltip .complete-item-active strong').innerText.trim().replace(/\n/g, ''),
-    '@Jalon1'
-  );
-  await typeCode(textArea, CODES.Down);
-  assert.deepEqual(
-    find('.complete-tooltip .complete-item-active strong').innerText.trim().replace(/\n/g, ''),
-    '@Jaida62'
-  );
-  await typeCode(textArea, CODES.Up);
-  assert.deepEqual(
-    find('.complete-tooltip .complete-item-active strong').innerText.trim().replace(/\n/g, ''),
-    '@Jalon1'
-  );
-  await typeCode(textArea, CODES.Enter);
-  assert.equal(find('.complete-tooltip').style.display, 'none');
-  assert.equal(textArea.value, `${text} @Jalon1`);
-});
+    assert.deepEqual(
+      arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.querySelector('strong').innerText.trim().replace(/\n/g, '')),
+      ['@Jaida62', '@Jalon1']
+    );
 
-test('handles moveCaret actions', async function (assert) {
-  await visit('/demos/actions');
+    await type(textArea, 'i');
+    await waitUntil(() => find('.complete-tooltip-body ul').children.length === 1);
+    assert.deepEqual(
+      arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.querySelector('strong').innerText.trim().replace(/\n/g, '')),
+      ['@Jaida62']
+    );
+    await type(textArea, ' ');
+    await waitUntil(() => find('.complete-tooltip').style.display === 'none');
+    assert.equal(find('.complete-tooltip').style.display, 'none');
+    await typeBackSpace(textArea);
+    await typeBackSpace(textArea);
+    assert.deepEqual(arrayFromList(find('.complete-tooltip-body ul').children).map(li => li.querySelector('strong').innerText.trim().replace(/\n/g, '')),
+      ['@Jaida62', '@Jalon1']
+    );
+    await typeCode(textArea, CODES.Down);
+    assert.deepEqual(
+      find('.complete-tooltip .complete-item-active strong').innerText.trim().replace(/\n/g, ''),
+      '@Jalon1'
+    );
+    await typeCode(textArea, CODES.Down);
+    assert.deepEqual(
+      find('.complete-tooltip .complete-item-active strong').innerText.trim().replace(/\n/g, ''),
+      '@Jaida62'
+    );
+    await typeCode(textArea, CODES.Up);
+    assert.deepEqual(
+      find('.complete-tooltip .complete-item-active strong').innerText.trim().replace(/\n/g, ''),
+      '@Jalon1'
+    );
+    await typeCode(textArea, CODES.Enter);
+    assert.equal(find('.complete-tooltip').style.display, 'none');
+    assert.equal(textArea.value, `${text} @Jalon1`);
+  });
 
-  const textArea = find('#complete-textarea');
+  test('handles moveCaret actions', async function (assert) {
+    await visit('/demos/actions');
 
-  await click('#move-to-0');
-  assert.equal(textArea.selectionStart, 0);
+    const textArea = find('#complete-textarea');
 
-  await click('#move-to-5');
-  assert.equal(textArea.selectionStart, 5);
+    await click('#move-to-0');
+    assert.equal(textArea.selectionStart, 0);
 
-  await click('#move-to-10');
-  assert.equal(textArea.selectionStart, 10);
-});
+    await click('#move-to-5');
+    assert.equal(textArea.selectionStart, 5);
 
-test('handles preselectValueAt action', async function (assert) {
-  await visit('/demos/actions');
+    await click('#move-to-10');
+    assert.equal(textArea.selectionStart, 10);
+  });
 
-  const textArea = find('#complete-textarea-preselect');
-  await type(textArea, ' :smi');
+  test('handles preselectValueAt action', async function (assert) {
+    await visit('/demos/actions');
 
-  await waitUntil(() => find('.complete-tooltip-body ul').children.length > 0);
+    const textArea = find('#complete-textarea-preselect');
+    await type(textArea, ' :smi');
 
-  const $notActiveLi = $('.complete-tooltip-body ul li:not(.complete-item-active)');
-  $notActiveLi.trigger('mouseenter');
+    await waitUntil(() => find('.complete-tooltip-body ul').children.length > 0);
 
-  assert.ok($notActiveLi.hasClass('complete-item-active'));
-});
+    const $notActiveLi = $('.complete-tooltip-body ul li:not(.complete-item-active)');
+    $notActiveLi.trigger('mouseenter');
 
-test('handles refreshSuggestions action', async function (assert) {
-  await visit('/demos/actions');
+    await waitUntil(() => $notActiveLi.hasClass('complete-item-active'));
 
-  const $button = $('#button--refreshSuggestions');
-  const textArea = find('#complete-textarea-refresh');
-  await type(textArea, ' #');
+    assert.ok($notActiveLi.hasClass('complete-item-active'));
+  });
 
-  await waitUntil(() => find('.complete-tooltip:not(.complete-tooltip--invisible) .complete-tooltip-body ul').children.length > 0);
+  test('handles refreshSuggestions action', async function (assert) {
+    await visit('/demos/actions');
 
-  const initialLis = arrayFromList(find('.complete-tooltip:not(.complete-tooltip--invisible) .complete-tooltip-body ul').children)
-    .map(li => li.innerText.trim().replace(/\n/g, ''));
+    const $button = $('#button--refreshSuggestions');
+    const textArea = find('#complete-textarea-refresh');
+    await type(textArea, ' #');
 
-  $button.trigger('mouseenter');
+    await waitUntil(() => find('.complete-tooltip:not(.complete-tooltip--invisible) .complete-tooltip-body ul').children.length > 0);
 
-  await wait();
+    const initialLis = arrayFromList(find('.complete-tooltip:not(.complete-tooltip--invisible) .complete-tooltip-body ul').children)
+      .map(li => li.innerText.trim().replace(/\n/g, ''));
 
-  const currentLis = arrayFromList(find('.complete-tooltip:not(.complete-tooltip--invisible) .complete-tooltip-body ul').children)
-    .map(li => li.innerText.trim().replace(/\n/g, ''));
+    $button.trigger('mouseenter');
 
-  assert.notEqual(initialLis.join('|'), currentLis.join('|'));
+    await wait();
+
+    const currentLis = arrayFromList(find('.complete-tooltip:not(.complete-tooltip--invisible) .complete-tooltip-body ul').children)
+      .map(li => li.innerText.trim().replace(/\n/g, ''));
+
+    assert.notEqual(initialLis.join('|'), currentLis.join('|'));
+  });
+
 });

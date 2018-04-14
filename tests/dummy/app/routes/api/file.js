@@ -1,7 +1,7 @@
-import Ember from 'ember';
 import config from 'dummy/config/environment';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
   model({filename}){
     let module;
     const items = [];

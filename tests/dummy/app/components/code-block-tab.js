@@ -1,10 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import layout from '../templates/components/code-block-tab';
+import {computed} from '@ember/object';
 
-const {computed} = Ember;
-
-export default Ember.Component.extend({
-  layout: layout,
+export default Component.extend({
+  layout,
 
   current: undefined,
   isVisible: computed('current', 'name', function(){

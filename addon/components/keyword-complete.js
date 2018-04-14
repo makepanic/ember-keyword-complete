@@ -1,7 +1,9 @@
-import Ember from 'ember';
 import layout from '../templates/components/keyword-complete';
-
-const {observer, computed, run, assert, $} = Ember;
+import Component from '@ember/component';
+import {observer, computed} from '@ember/object';
+import $ from 'jquery';
+import {run} from '@ember/runloop';
+import {assert} from '@ember/debug';
 
 const REGEX_WHITESPACE = /[\s\t]/;
 const REGEX_KEYWORDS = /[0-9a-zA-Z_.]/;
@@ -44,7 +46,7 @@ function getCaretPosition(el) {
  * @extends Ember.Component
  * @public
  */
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   classNames: ['auto-complete'],
 

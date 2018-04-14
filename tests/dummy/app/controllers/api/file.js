@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import {computed} from '@ember/object';
 
-const {computed} = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   publicMember: computed.filterBy('model.items', 'access', 'public'),
   privateMember: computed.filterBy('model.items', 'access', 'private')
 });

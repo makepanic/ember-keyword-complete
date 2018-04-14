@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import {emoji, users, commands} from 'dummy/utils/data-sources';
 import ENV from 'dummy/config/environment';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   emojis: ENV.APP.EMOJIS,
   users: ENV.APP.USERS,
   commands: ENV.APP.COMMANDS,

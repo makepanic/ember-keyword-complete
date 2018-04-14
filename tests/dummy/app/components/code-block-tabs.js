@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import layout from '../templates/components/code-block-tabs';
 
-export default Ember.Component.extend({
-  layout: layout,
+export default Component.extend({
+  layout,
 
   current: 'result',
 

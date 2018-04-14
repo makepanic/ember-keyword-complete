@@ -1,10 +1,9 @@
 /* global emojione */
-import Ember from 'ember';
-
-const {String: {htmlSafe}} = Ember;
+import {htmlSafe} from "@ember/string";
+import { helper } from '@ember/component/helper';
 
 export function toEmoji(params/*, hash*/) {
   return htmlSafe(emojione.shortnameToImage(`:${params[0]}:`));
 }
 
-export default Ember.Helper.helper(toEmoji);
+export default helper(toEmoji);

@@ -1,7 +1,6 @@
 import ENV from 'dummy/config/environment';
-import Ember from 'ember';
-
-const {RSVP, run} = Ember;
+import RSVP from 'rsvp';
+import {run} from '@ember/runloop';
 
 export const emoji = {
   component: 'emoji-item',
