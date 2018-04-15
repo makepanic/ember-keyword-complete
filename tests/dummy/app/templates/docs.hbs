@@ -1,0 +1,22 @@
+{{docs-header}}
+
+{{#docs-viewer as |viewer|}}
+  {{#viewer.nav as |nav|}}
+    {{nav.section 'Introduction'}}
+    {{nav.item 'Usage' 'docs.index'}}
+
+    {{nav.section 'Demos'}}
+    {{nav.item 'One data source' 'docs.demos.emoji'}}
+    {{nav.item 'Multiple data sources' 'docs.demos.multiple'}}
+    {{nav.item 'Actions' 'docs.demos.actions'}}
+  {{/viewer.nav}}
+
+  {{#viewer.main}}
+    <div class="docs-container">
+      <div class="docs-section">
+        {{outlet}}
+      </div>
+    </div>
+  {{/viewer.main}}
+
+{{/docs-viewer}}

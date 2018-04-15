@@ -1,0 +1,68 @@
+<h1 class="docs-md__h1">Multiple data sources</h1>
+
+<p>This demo shows you how to use multiple data source with a keyword complete.</p>
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name='docs-demo-multiple.hbs'}}
+    {{#keyword-complete dataSources=ds text=text target='#complete-textarea' as |complete|}}
+      <div class="relative">
+        {{#complete.tooltip isVisible=complete.visible ~}}
+          <div class="complete-tooltip-header">
+            <div class="row">
+              <div class="six columns">
+                query: "<strong>{{complete.filterQuery}}</strong>"
+              </div>
+              <div class="six columns text-right">
+                <strong>↑</strong> <strong>↓</strong> to navigate
+                <strong>↵</strong> to select
+                <strong>esc</strong> to dismiss
+              </div>
+            </div>
+          </div>
+          <div class="complete-tooltip-body">
+            <ul>
+              {{#each complete.suggestions as |suggestion idx|~}}
+                {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
+              {{~/each}}
+            </ul>
+          </div>
+        {{~/complete.tooltip}}
+      </div>
+      {{textarea class="demo-textarea emoji-and-users" id="complete-textarea" rows="8" value=text}}
+    {{/keyword-complete}}
+  {{/demo.example}}
+
+  {{demo.snippet 'docs-demo-multiple.hbs'}}
+  {{demo.snippet 'docs-demo-multiple.js'}}
+  {{demo.snippet 'docs-demo-source-emoji.js' label='emoji data source'}}
+  {{demo.snippet 'docs-demo-source-user.js' label='user data source'}}
+  {{demo.snippet 'docs-demo-source-command.js' label='command data source'}}
+{{/docs-demo}}
+
+<div class="row">
+  <div class="four columns">
+    <h4>emoji alias <code>:</code></h4>
+
+    {{#keyword-list keywords=(env 'APP.EMOJIS') as |emoji|}}
+      <code>{{emoji.val}}</code>
+    {{/keyword-list}}
+  </div>
+  <div class="four columns">
+    <h4>user alias <code>@</code></h4>
+
+    {{#keyword-list keywords=(env 'APP.USERS') as |user|}}
+      <code>{{user.nick}}</code>
+    {{/keyword-list}}
+  </div>
+
+  <div class="four columns">
+    <h4>command alias <code>/</code></h4>
+
+    {{#keyword-list keywords=(env 'APP.COMMANDS') as |cmd|}}
+      <code>{{cmd.name}}</code>
+    {{/keyword-list}}
+  </div>
+</div>
+
+
+{{outlet}}

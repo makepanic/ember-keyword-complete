@@ -1,5 +1,10 @@
 .demo-textarea{
-  height: 250px;
+  min-height: 150px;
   width: 100%;
   max-width: 100%;
+  border-width: 1px;
+  padding: 10px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px 0 rgba(50,50,93,.1);
 }

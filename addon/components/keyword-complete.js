@@ -128,7 +128,7 @@ export default Component.extend({
 
   /**
    * Whether the completion is enabled or disabled.
-   * @property Boolean
+   * @property enabled
    * @type Boolean
    * @default true
    * @public
@@ -137,7 +137,7 @@ export default Component.extend({
 
   /**
    * Wether the completion should have a typing state
-   * @property Boolean
+   * @property shouldShowTypingState
    * @type Boolean
    * @default false
    * @public
@@ -154,14 +154,14 @@ export default Component.extend({
 
   /**
    * Virtual caret that indicates the current completion start position
-   * @readonly
+   * @readOnly
    * @type number | null
    */
   caretStart: null,
 
   /**
    * Virtual caret that indicates the current completion end position
-   * @readonly
+   * @readOnly
    * @type number | null
    */
   caretEnd: null,
@@ -643,7 +643,7 @@ export default Component.extend({
     },
     /**
      * Action that refreshes the suggestion list
-     * @return {*}
+     * @return {void}
      */
     refreshSuggestions() {
       return this.updateSuggestions();
@@ -652,6 +652,7 @@ export default Component.extend({
     /**
      * Action to move the selection to a given position
      * @param {number} position
+     * @return {void}
      */
     moveCaret(position) {
       setCaretPosition(this.get('input'), position);

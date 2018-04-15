@@ -1,9 +1,0 @@
-<h2 class="docs-title">Files</h2>
-
-<ul>
-{{#each model as |file|}}
-  <li>{{#link-to 'api.file' file.key}}{{file.name}}{{/link-to}}</li>
-{{/each}}
-</ul>
-
-{{outlet}}

@@ -1,0 +1,142 @@
+<h1 class="docs-md__h1">Actions</h1>
+<p>
+  All these samples use the dummy emoji datasource. Use <code>:sm</code> to trigger the completion. <br>
+  <strong>Note</strong>: these examples are mostly only for the acceptance tests.
+</p>
+
+<h2 class="docs-md__h2">Actions (<code>moveCaret</code>)</h2>
+
+<p>This sample moves the completion care by using the <code>moveCaret</code> action.</p>
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name='docs-demo-actions-moveCaret.hbs'}}
+    {{#keyword-complete
+      dataSources=ds
+      minQueryLength=2
+      shouldShowTypingState=true
+      text=textMoveCaret
+      target='#complete-textarea' as |complete|}}
+
+      <div>
+        <button class="docs-btn" id="move-to-0" {{action complete.moveCaret 0}}>move caret to 0</button>
+        <button class="docs-btn" id="move-to-5" {{action complete.moveCaret 5}}>move caret to 5</button>
+        <button class="docs-btn" id="move-to-10" {{action complete.moveCaret 10}}>move caret to 10</button>
+        <button class="docs-btn" id="move-to-100" {{action complete.moveCaret 100}}>move caret to 100</button>
+      </div>
+
+      {{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=textMoveCaret}}
+    {{/keyword-complete}}
+  {{/demo.example}}
+
+  {{demo.snippet 'docs-demo-actions-moveCaret.hbs'}}
+  {{demo.snippet 'docs-demo-source-emoji.js' label='emoji data source'}}
+  {{demo.snippet 'docs-demo-source-random.js' label='random data source'}}
+{{/docs-demo}}
+
+<h2 class="docs-md__h2">Actions (<code>preselectValueAt</code>)</h2>
+
+<p>This sample binds mouseEnter to the <code>preselectValueAt</code> action to allow preselecting the suggestion on
+  "hover".</p>
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name='docs-demo-actions-preselectValueAt.hbs'}}
+    {{#keyword-complete
+      dataSources=ds
+      minQueryLength=2
+      text=textPreselect
+      target='#complete-textarea-preselect' as |complete|}}
+
+      {{#complete.tooltip isVisible=complete.visible ~}}
+        <div class="complete-tooltip-header">
+          <div class="row">
+            <div class="six columns">
+              query: "<strong>{{complete.filterQuery}}</strong>"
+            </div>
+            <div class="six columns text-right">
+              <strong>↑</strong> <strong>↓</strong> to navigate
+              <strong>↵</strong> to select
+              <strong>esc</strong> to dismiss
+            </div>
+          </div>
+        </div>
+        <div class="complete-tooltip-body">
+          <ul>
+            {{#each complete.suggestions as |suggestion idx|}}
+              {{complete.item
+                tagName='li'
+                suggestion=suggestion
+                active=(eq idx complete.selectionIdx)
+                mouseEnter=(action complete.preselectValueAt idx)
+              }}
+            {{/each}}
+          </ul>
+        </div>
+      {{~/complete.tooltip}}
+
+      {{textarea class="demo-textarea emoji" id="complete-textarea-preselect" rows="8" value=textPreselect}}
+    {{/keyword-complete}}
+  {{/demo.example}}
+
+  {{demo.snippet 'docs-demo-actions-preselectValueAt.hbs'}}
+  {{demo.snippet 'docs-demo-source-emoji.js' label='emoji data source'}}
+  {{demo.snippet 'docs-demo-source-random.js' label='random data source'}}
+{{/docs-demo}}
+
+<h2 class="docs-md__h2">Actions (<code>refreshSuggestions</code>)</h2>
+
+<p>
+  This sample binds <code>mouseEnter</code> completion tooltip to refresh the suggestions on "hover".
+  Use <code>#</code> to start the completion.
+  <strong>Note:</strong> this completion won't substring match. It only returns random words.
+</p>
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name='docs-demo-actions-refreshSuggestions.hbs'}}
+    {{#keyword-complete
+      dataSources=ds
+      text=textRefresh
+      target='#complete-textarea-refresh' as |complete|}}
+
+      <button
+        class="docs-btn"
+        id="button--refreshSuggestions"
+        {{action complete.refreshSuggestions on='mouseEnter'}}>
+        ⇛ hover to refresh ⇚
+      </button>
+
+      {{#complete.tooltip isVisible=complete.visible ~}}
+        <div class="complete-tooltip-header">
+          <div class="row">
+            <div class="six columns">
+              query: "<strong>{{complete.filterQuery}}</strong>"
+            </div>
+            <div class="six columns text-right">
+              <strong>↑</strong> <strong>↓</strong> to navigate
+              <strong>↵</strong> to select
+              <strong>esc</strong> to dismiss
+            </div>
+          </div>
+        </div>
+        <div class="complete-tooltip-body">
+          <ul>
+            {{#each complete.suggestions as |suggestion idx|}}
+              {{complete.item
+                tagName='li'
+                suggestion=suggestion
+                active=(eq idx complete.selectionIdx)
+              }}
+            {{/each}}
+          </ul>
+        </div>
+      {{~/complete.tooltip}}
+
+      {{textarea class="demo-textarea emoji" id="complete-textarea-refresh" rows="8" value=textRefresh}}
+    {{/keyword-complete}}
+  {{/demo.example}}
+
+  {{demo.snippet 'docs-demo-actions-refreshSuggestions.hbs'}}
+  {{demo.snippet 'docs-demo-source-emoji.js' label='emoji data source'}}
+  {{demo.snippet 'docs-demo-source-random.js' label='random data source'}}
+{{/docs-demo}}
+
+{{outlet}}

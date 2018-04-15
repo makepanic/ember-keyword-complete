@@ -2,6 +2,7 @@ import ENV from 'dummy/config/environment';
 import RSVP from 'rsvp';
 import {run} from '@ember/runloop';
 
+// BEGIN-SNIPPET docs-demo-source-emoji.js
 export const emoji = {
   component: 'emoji-item',
   extractDataString(item) {
@@ -11,7 +12,9 @@ export const emoji = {
     return RSVP.resolve(ENV.APP.EMOJIS.filter(item => `:${item.val}:`.indexOf(query) !== -1));
   }
 };
+// END-SNIPPET
 
+// BEGIN-SNIPPET docs-demo-source-user.js
 export const users = {
   component: 'user-item',
   extractDataString(item) {
@@ -26,7 +29,9 @@ export const users = {
     });
   }
 };
+// END-SNIPPET
 
+// BEGIN-SNIPPET docs-demo-source-command.js
 export const commands = {
   minQueryLength: 0,
   component: 'command-item',
@@ -39,7 +44,9 @@ export const commands = {
       .filter(c => c.name.toLowerCase().indexOf(query.toLowerCase().substring(1)) === 0));
   }
 };
+// END-SNIPPET
 
+// BEGIN-SNIPPET docs-demo-source-random.js
 const words = [
   'hello',
   'darkness',
@@ -66,3 +73,4 @@ export const random = {
     });
   }
 };
+// END-SNIPPET

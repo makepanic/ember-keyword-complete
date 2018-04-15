@@ -50,7 +50,7 @@ module('Acceptance | demo', function (hooks) {
   setupApplicationTest(hooks);
 
   test('completes using single data source', async function (assert) {
-    await visit('/demos/emoji');
+    await visit('/docs/demos/emoji');
     const textArea = find('#complete-textarea');
     await type(textArea, ':smil');
     assert.equal(find('.complete-tooltip-body ul').childElementCount, 0);
@@ -84,7 +84,7 @@ module('Acceptance | demo', function (hooks) {
   });
 
   test('completes from multiple data sources by using a keyword identifier (@ vs :)', async function (assert) {
-    await visit('/demos/emoji-and-users');
+    await visit('/docs/demos/multiple');
 
     const textArea = find('#complete-textarea');
     const text = textArea.value;
@@ -132,7 +132,7 @@ module('Acceptance | demo', function (hooks) {
   });
 
   test('handles moveCaret actions', async function (assert) {
-    await visit('/demos/actions');
+    await visit('/docs/demos/actions');
 
     const textArea = find('#complete-textarea');
 
@@ -147,7 +147,7 @@ module('Acceptance | demo', function (hooks) {
   });
 
   test('handles preselectValueAt action', async function (assert) {
-    await visit('/demos/actions');
+    await visit('/docs/demos/actions');
 
     const textArea = find('#complete-textarea-preselect');
     await type(textArea, ' :smi');
@@ -163,7 +163,7 @@ module('Acceptance | demo', function (hooks) {
   });
 
   test('handles refreshSuggestions action', async function (assert) {
-    await visit('/demos/actions');
+    await visit('/docs/demos/actions');
 
     const $button = $('#button--refreshSuggestions');
     const textArea = find('#complete-textarea-refresh');

@@ -1,0 +1,67 @@
+{{docs-header}}
+
+{{docs-hero
+  logo='ember'
+  slimHeading='ember-'
+  strongHeading='keyword-complete'
+  byline='An easy way to add keyword autocompletion to existing input/textarea elements'}}
+
+<div class='docs-container docs-md'>
+  <section class='max-w-md mx-auto pb-8'>
+    <p>
+      <code>ember-keyword-complete</code> allows you to add completion features to any input or textarea.
+    </p>
+
+    {{#docs-demo as |demo|}}
+      {{#demo.example name='docs-demo-index.hbs'}}
+        {{#keyword-complete
+          dataSources=ds
+          minQueryLength=0
+          shouldShowTypingState=false
+          text=text
+          target='#complete-textarea' as |complete|}}
+          <div class="relative">
+            {{#complete.tooltip isVisible=complete.visible ~}}
+              <div class="complete-tooltip-header">
+                <div class="row">
+                  <div class="six columns">
+                    query: "<strong>{{complete.filterQuery}}</strong>"
+                  </div>
+                  <div class="six columns text-right">
+                    <strong>↑</strong> <strong>↓</strong> to navigate
+                    <strong>↵</strong> to select
+                    <strong>esc</strong> to dismiss
+                  </div>
+                </div>
+              </div>
+              <div class="complete-tooltip-body">
+                {{#if complete.showTypingState}}
+                {{!-- add typing state here--}}
+                  typing
+                {{else}}
+                  <ul>
+                    {{#each complete.suggestions as |suggestion idx|}}
+                      {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
+                    {{/each}}
+                  </ul>
+                {{/if}}
+              </div>
+            {{~/complete.tooltip}}
+          </div>
+          {{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=text}}
+        {{/keyword-complete}}
+      {{/demo.example}}
+
+      {{demo.snippet 'docs-demo-index.hbs'}}
+      {{demo.snippet 'docs-demo-index.js'}}
+      {{demo.snippet 'docs-demo-source-emoji.js' label='emoji data source'}}
+    {{/docs-demo}}
+
+
+    <div class="my-16 text-right">
+      {{#link-to 'docs' class='bg-grey-darkest hover:bg-black text-white py-2 px-4 no-underline rounded'}}
+        Read the docs →
+      {{/link-to}}
+    </div>
+  </section>
+</div>

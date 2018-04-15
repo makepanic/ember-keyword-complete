@@ -1,0 +1,48 @@
+<h1 class="docs-md__h1">One data source</h1>
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name='docs-demo-emoji.hbs'}}
+    {{#keyword-complete
+      dataSources=ds
+      minQueryLength=2
+      shouldShowTypingState=true
+      text=text
+      target='#complete-textarea' as |complete|}}
+      <div class="relative">
+        {{#complete.tooltip isVisible=complete.visible ~}}
+          <div class="complete-tooltip-header">
+            <div class="row">
+              <div class="six columns">
+                query: "<strong>{{complete.filterQuery}}</strong>"
+              </div>
+              <div class="six columns text-right">
+                <strong>↑</strong> <strong>↓</strong> to navigate
+                <strong>↵</strong> to select
+                <strong>esc</strong> to dismiss
+              </div>
+            </div>
+          </div>
+          <div class="complete-tooltip-body">
+            {{#if complete.showTypingState}}
+            {{!-- add typing state here--}}
+              typing
+            {{else}}
+              <ul>
+                {{#each complete.suggestions as |suggestion idx|}}
+                  {{complete.item tagName='li' suggestion=suggestion active=(eq idx complete.selectionIdx)}}
+                {{/each}}
+              </ul>
+            {{/if}}
+          </div>
+        {{~/complete.tooltip}}
+      </div>
+      {{textarea class="demo-textarea emoji" id="complete-textarea" rows="8" value=text}}
+    {{/keyword-complete}}
+  {{/demo.example}}
+
+  {{demo.snippet 'docs-demo-emoji.hbs'}}
+  {{demo.snippet 'docs-demo-emoji.js'}}
+{{/docs-demo}}
+
+
+{{outlet}}
