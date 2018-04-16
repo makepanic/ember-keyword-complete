@@ -1,0 +1,101 @@
+.auto-complete {
+  position: relative; }
+
+.complete-tooltip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #D1D1D1;
+  background: #fff; }
+
+.complete-tooltip-header {
+  padding: 5px 10px;
+  font-size: 13px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #D1D1D1; }
+
+.complete-tooltip-body {
+  padding: 10px;
+  max-height: 400px;
+  overflow-y: auto; }
+
+.complete-item {
+  padding: 5px 10px 5px 5px;
+  color: #6587D6;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0; }
+
+.complete-item img {
+  vertical-align: middle;
+  display: inline-block;
+  width: 20px;
+  height: 20px; }
+
+.complete-item-active {
+  background: #6587D6;
+  color: #fff; }
+
+.complete-command-item {
+  display: block;
+  vertical-align: top;
+  font-family: DOS, Monaco, Menlo, Consolas, "Courier New", monospace;
+  font-size: 14px;
+  background-color: #000084;
+  color: #BBB; }
+  .complete-command-item > div {
+    padding: 5px;
+    margin: 5px;
+    border: 2px solid transparent; }
+  .complete-command-item.complete-item-active {
+    color: #fff; }
+    .complete-command-item.complete-item-active > div {
+      border-color: #BBB;
+      box-shadow: 3px 3px 0 4px #000; }
+  .complete-command-item:hover {
+    color: #BBB; }
+    .complete-command-item:hover > div {
+      background-color: #000; }
+  .complete-command-item .command-name {
+    font-weight: bold;
+    text-transform: uppercase; }
+  .complete-command-item .command-syntax {
+    color: #fefe54; }
+  .complete-command-item .command-description {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+
+.keywords {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
+.keywords-item {
+  display: inline-block;
+  vertical-align: middle; }
+  .keywords-item code {
+    background-color: #f8fafc;
+    border: 1px solid #dae1e7;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 2px 5px;
+    display: inline-block;
+    margin-bottom: 3px; }
+
+.demo-textarea {
+  min-height: 150px;
+  width: 100%;
+  max-width: 100%;
+  border-width: 1px;
+  padding: 10px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px 0 rgba(50, 50, 93, 0.1); }
+
+ul {
+  margin: 0;
+  padding: 0; }
