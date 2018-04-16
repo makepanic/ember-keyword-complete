@@ -7,7 +7,7 @@ ember-keyword-complete
 
 An easy way to add keyword autocompletion to existing input/textarea elements
 
-[ember-keyword-complete demo + docs](http://makepanic.github.io/ember-keyword-complete/#/)
+[ember-keyword-complete demo + docs](https://makepanic.github.io/ember-keyword-complete/master/)
 
 Installation
 ------------------------------------------------------------------------------
